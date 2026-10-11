@@ -1,0 +1,27 @@
+/* The shared seven-stage journey (slides 2, 4 and 6): one component with the same order, numbering,
+   proportions and selected state everywhere. Colours come from custom properties so it sits on navy,
+   cobalt or paper. --jr-p is the progress fill (0 at stage 01, 1 at stage 07). */
+.jr{--jr-ink:#f5f6fa;--jr-muted:#c3c6ff99;--jr-line:#c3c6ff33;--jr-accent:#ccefad;--jr-done:#c3c6ff;--jr-bg:#0b1228;--jr-p:0;position:relative}
+.jr ol{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin:0;padding:0;list-style:none}
+.jr li{min-width:0}
+.jr-line{position:absolute;left:calc(100%/14);right:calc(100%/14);top:25px;height:1px;background:var(--jr-line)}
+.jr-fill{position:absolute;left:0;top:0;width:calc(var(--jr-p)*100%);height:100%;background:var(--jr-accent);box-shadow:0 0 10px var(--jr-accent);transition:width .9s cubic-bezier(.65,0,.35,1),opacity .6s}
+.jr.is-idle .jr-fill{opacity:0}
+.slide .jr-node{display:flex;flex-direction:column;align-items:center;width:100%;min-width:0;max-width:none;padding:0 6px;margin:0;background:none;border:0;border-radius:0;box-shadow:none;color:var(--jr-muted);font:inherit;text-align:center;cursor:pointer;transition:color .45s}
+.slide .jr-node:hover{color:var(--jr-ink);background:none;filter:none;transform:none}
+.jr-num{display:block;height:16px;font-size:clamp(10px,.66vw,11.5px);font-weight:600;letter-spacing:.18em;line-height:16px;font-variant-numeric:tabular-nums;transition:color .45s}
+.jr-dot{display:block;width:11px;height:11px;margin:4px 0 11px;border-radius:50%;border:1px solid currentColor;background:var(--jr-bg);transition:background-color .45s,border-color .45s,box-shadow .45s,transform .45s}
+.jr-name{display:block;max-width:15ch;font-size:clamp(12px,.92vw,15.5px);font-weight:500;line-height:1.3;letter-spacing:-.008em;text-wrap:balance}
+.jr-node.is-done .jr-dot{background:var(--jr-done);border-color:var(--jr-done)}
+.slide .jr-node[aria-pressed=true]{color:var(--jr-ink)}
+.jr-node[aria-pressed=true] .jr-num{color:var(--jr-accent)}
+.jr-node[aria-pressed=true] .jr-dot{background:var(--jr-accent);border-color:var(--jr-accent);box-shadow:0 0 0 5px color-mix(in srgb,var(--jr-accent) 14%,transparent),0 0 16px var(--jr-accent);transform:scale(1.15)}
+.jr.is-all .jr-node{color:var(--jr-ink)}
+.jr.is-all .jr-dot{background:var(--jr-accent);border-color:var(--jr-accent);box-shadow:0 0 12px var(--jr-accent)}
+.jr-node:focus-visible{outline:2px solid var(--jr-accent);outline-offset:4px}
+.jr.on-paper{--jr-ink:#10162b;--jr-muted:#10162b8c;--jr-line:#10162b26;--jr-accent:#3445eb;--jr-done:#9aa3f5;--jr-bg:#f5f6fa}
+@media(max-width:900px){
+ .slide .jr-node{padding:0 2px}
+ .jr-name{display:none}
+ .jr-node[aria-pressed=true] .jr-num{color:var(--jr-accent)}
+}

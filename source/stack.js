@@ -1,20 +1,23 @@
-/* Candidate scene: front stage and back stage. An exploded stack of glass slabs on paper: the
-   applicant's six-stage path on top, carrying the object they see at each stage, above four
-   layers of the institution's operating system (Academic, Technology, Operations, Governance).
+/* Slide 6 (Nizar brief): One candidate. One journey. One integrated experience. Front stage and back
+   stage: a glass slab carries Candidate 1047's seven stages, a concept screen floats above the
+   current stage, and the four layers of work behind it (Academic, Technology, Operations,
+   Governance) open beneath on request. The camera travels with the candidate.
    Slabs, patterns and the active-stage band are drawn analytically in the fragment shader, so the
    scene is crisp at any size and cheap to draw. Local WebGL and GSAP only. */
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const slide=$('[data-semantic-id="candidate"]');if(!slide||!window.ELMY_LIGHT)return;
 const{M,FS_POINTS}=window.ELMY_LIGHT,g=window.gsap;
-const STAGES=JSON.parse($('.sk-data',slide).textContent);
-const canvas=$('.sk-canvas',slide),steps=$$('.sk-step',slide),rows=$$('.sk-layer',slide),tags=$$('.sk-tag',slide),figure=$('.sk-figure',slide),objects=$$('.sk-object',slide);
-const panel={count:$('.sk-count',slide),name:$('.sk-name',slide),summary:$('.sk-summary',slide),lines:rows.map(r=>$('.sk-line-text',r))};
+const DATA=JSON.parse($('.sk-data',slide).textContent),STEPS=DATA.steps,LAST=STEPS.length-1,NS=DATA.names.length;
+const canvas=$('.sk-canvas',slide),tags=$$('.sk-tag',slide),cardsWrap=$('.sk-cards',slide),cards=$$('.sk-card',slide),more=$('.sk-more',slide),rail=$('.sk-rail',slide),nodes=$$('.jr-node',rail);
+const panel={count:$('.sk-count',slide),name:$('.sk-name',slide),sub:$('.sk-sub',slide),summary:$('.sk-summary',slide),lines:$$('.sk-line-text',slide)};
+// Each step with a stage has its own concept screen, in step order.
+const CARD=[];{let k=0;STEPS.forEach((st,i)=>{CARD[i]=st.stage>=0?k++:-1;});}
 const pad=n=>String(n).padStart(2,'0');
 
 /* Geometry: stage columns along x; slab 0 is the applicant's surface, slabs 1–4 the layers. */
-const HX=3.1,HZ=1.1,R=.22,TH=.07,LEVEL=[1.6,.8,.1,-.6,-1.3],X=s=>-2.5+s;
-const CAMERA={fov:.56,eye:[6,6.2,12],target:[.3,-.1,0]};
+const HX=3.65,HZ=1.1,R=.22,TH=.07,LEVEL=[1.6,1.02,.44,-.14,-.72],X=s=>-3+s;
+const CAMERA={fov:.56,eye:[5.7,6.2,12],target:[.3,-.1,0]};
 // Slab mesh: one quad for the top (its rounded shape comes from an SDF) and a strip for the rim.
 const mesh=[];
 const vtx=(x,y,z,slab,face,shade)=>mesh.push(x,y,z,x,z,slab,face,shade);
@@ -47,7 +50,7 @@ void main(){
  float depth=(vL.y+${HZ.toFixed(2)})/${(2*HZ).toFixed(2)};
  vec3 col=base*mix(1.05,.93,depth);
  vec3 ink=s<2?vec3(.063,.086,.169):vec3(1.);float pat=0.;
- if(s==0){pat=stroke(vL.y,.012)*.85;for(int k=0;k<6;k++)pat=max(pat,stroke(length(vL-vec2(-2.5+float(k),0.))-.17,.012)*.85);}
+ if(s==0){pat=stroke(vL.y,.012)*.85;for(int k=0;k<7;k++)pat=max(pat,stroke(length(vL-vec2(-3.+float(k),0.))-.17,.012)*.85);}
  else if(s==1){vec2 c=fract(vL/.27)-.5;pat=stroke(length(c)-.17,.011)*.55;}
  else if(s==2){float row=floor(vL.y/.2+.5);float z=(fract(vL.y/.2+.5)-.5)*.2;float seg=step(.32,fract(vL.x*.85+row*.43));pat=stroke(z,.008)*seg*.75;vec2 c=fract(vL/.2+.5)-.5;pat=max(pat,(1.-smoothstep(.08,.12,length(c)))*step(.72,hash(floor(vL/.2+.5)))*.9);}
  else if(s==3){vec2 c=fract(vL/.15)-.5;pat=(1.-smoothstep(.13,.19,length(c)))*step(.5,hash(floor(vL/.15)))*.7;}
@@ -81,17 +84,18 @@ function init(){try{const kit=window.ELMY_LIGHT.context(canvas);if(!kit)throw ne
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();useFallback('context lost');});ready=true;}catch(e){useFallback(e.message||e);}}
 
 /* State: slab positions (explode), the active band and walker, layer emphasis. */
-const S={explode:[1,1,1,1],active:X(0),band:1,hi:[0,0,0,0],any:0,stride:0};
-let current=0,pinned=-1,active=false,motion=true,played=false,time=0,last=0,raf=0,frames=0,tl=null,textTl=null,panelTl=null,front=0,layout={shift:[.44,-.1],fov:CAMERA.fov,flat:false},placed='';
+const S={explode:[0,0,0,0],active:X(0),band:0,hi:[0,0,0,0],any:0,stride:0,camX:0,zoom:1};
+let current=0,open=false,active=false,motion=true,played=false,time=0,last=0,raf=0,frames=0,tl=null,textTl=null,panelTl=null,layout={shift:[.44,-.1],fov:CAMERA.fov,flat:false},placed='';
 const slabY=s=>s===0?LEVEL[0]:LEVEL[0]-.06-s*.035+(LEVEL[s]-LEVEL[0]+.06+s*.035)*S.explode[s-1];
 const slabFade=s=>s===0?1:Math.min(1,S.explode[s-1]*3);
 const beam=new Float32Array(6*5*4),dots=new Float32Array(32*9);
 function measure(){const aspect=window.ELMY_LIGHT.fit(canvas),flat=innerWidth<=900;slide.classList.toggle('sk-flat',flat||!ready);
- layout=flat?{shift:[0,-.04],fov:aspect<1?.9:.6,flat}:{shift:[aspect<1.45?.4:.44,aspect>1.7?-.06:-.1],fov:aspect<1.45?.74:aspect>1.7?.6:CAMERA.fov,flat};return aspect;}
+ layout=flat?{shift:[0,-.04],fov:aspect<1?.9:.6,flat}:{shift:[aspect<1.45?.42:.44,(aspect>1.7?-.24:-.28)-.16*(1-S.explode.reduce((a,b)=>a+b,0)/4)],fov:aspect<1.45?.74:aspect>1.7?.6:CAMERA.fov,flat};return aspect;}
 function project(vp,p){const c=M.apply(vp,p);return[((c[0]/c[3]+layout.shift[0])+1)/2*canvas.clientWidth,(1-(c[1]/c[3]+layout.shift[1]))/2*canvas.clientHeight];}
 function render(){if(!ready)return;const aspect=measure();if(layout.flat){place(null);return;}frames++;
  const W=canvas.width,H=canvas.height;gl.viewport(0,0,W,H);
- const proj=M.perspective(layout.fov,aspect,.1,80),view=M.lookAt(CAMERA.eye,CAMERA.target,[0,1,0]),vp=M.mul(proj,view),px=(H/2)/Math.tan(layout.fov/2);
+ const T=[CAMERA.target[0]+S.camX,CAMERA.target[1],CAMERA.target[2]],E=[0,1,2].map(k=>T[k]+(CAMERA.eye[k]-CAMERA.target[k])*S.zoom);
+ const proj=M.perspective(layout.fov,aspect,.1,80),view=M.lookAt(E,T,[0,1,0]),vp=M.mul(proj,view),px=(H/2)/Math.tan(layout.fov/2);
  const right=[view[0],view[4],view[8]],shadow=project(vp,[0,LEVEL[4]-.55,0]);
  gl.disable(gl.BLEND);gl.useProgram(BG.p);attribs(BG,quadBuf,[['aP',2,0]],2);gl.uniform2f(BG.u.uRes,W,H);gl.uniform2f(BG.u.uShadow,shadow[0]/canvas.clientWidth,1-shadow[1]/canvas.clientHeight);gl.uniform1f(BG.u.uShadowA,S.explode[3]);gl.drawArrays(gl.TRIANGLES,0,3);
  gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
@@ -102,7 +106,7 @@ function render(){if(!ready)return;const aspect=measure();if(layout.flat){place(
  let dn=0;const dot=(p,size,c,a,shape)=>{dots.set([...p,...c,a,size,shape],dn++*9);};
  for(let s=1;s<5;s++){dot([S.active,ys[s]+.005,0],.3,[.204,.271,.922],.85*S.band*slabFade(s),1);dot([S.active,ys[s]+.005,0],.08,[1,1,1],S.band*slabFade(s),2);}
  const rise=motion?[0,1,2].map(j=>(time*.4+j/3)%1):[];rise.forEach(t=>dot([S.active,ys[4]+(ys[0]-ys[4])*t,0],.09,[.204,.271,.922],Math.sin(Math.PI*t)*.9*S.band,0));
- dot([S.active-.62,ys[0]+.23,.32],.5,[.063,.086,.169],.92,3);
+ dot([S.active-.62,ys[0]+.23,.32],.5,[.063,.086,.169],.92*S.band,3);
  gl.bindBuffer(gl.ARRAY_BUFFER,dotBuf);gl.bufferData(gl.ARRAY_BUFFER,dots.subarray(0,dn*9),gl.DYNAMIC_DRAW);
  const slab=s=>{gl.useProgram(SL.p);attribs(SL,slabBuf,[['aPos',3,0],['aLocal',2,3],['aInfo',3,5]],8);const u=SL.u;
   gl.uniformMatrix4fv(u.uProj,false,proj);gl.uniformMatrix4fv(u.uView,false,view);gl.uniform2f(u.uShift,...layout.shift);gl.uniform1f(u.uY,ys[s]);gl.uniform1f(u.uSlab,s);
@@ -115,62 +119,65 @@ function render(){if(!ready)return;const aspect=measure();if(layout.flat){place(
 }
 /* HTML follows the drawing; positions are only written when they change. */
 function place(vp){
- if(layout.flat){if(placed!=='flat'){placed='flat';steps.forEach(b=>{b.style.transform='';b.style.opacity='';});tags.forEach(t=>t.style.opacity='0');figure.style.left=figure.style.top='';}return;}
- const key=[S.active,...S.explode,canvas.clientWidth,canvas.clientHeight,front].map(v=>typeof v==='number'?v.toFixed(3):v).join();if(key===placed)return;placed=key;
- // The figure wrapper is positioned; GSAP only animates the images inside it.
- const[ox,oy]=project(vp,[S.active,slabY(0),0]);figure.style.left=`${ox.toFixed(1)}px`;figure.style.top=`${oy.toFixed(1)}px`;
- steps.forEach((b,s)=>{const[x,y]=project(vp,[X(s),slabY(4)-TH,HZ]);b.style.transform=`translate(${x.toFixed(1)}px,${(y+8).toFixed(1)}px) translate(-50%,0)`;b.style.opacity=String(Math.min(1,S.explode[3]*1.5));});
- // Layer names are printed on their own slab, near its front-left corner.
- tags.forEach((t,i)=>{const[x,y]=project(vp,[-HX+.42,slabY(i)+.005,HZ-.2]);t.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(0,-50%)`;t.style.opacity=String(i===0?1:Math.max(0,(S.explode[i-1]-.65)/.35));});
+ if(layout.flat){if(placed!=='flat'){placed='flat';tags.forEach(t=>t.style.opacity='0');cardsWrap.style.transform='';}return;}
+ const key=[S.active,S.camX,S.zoom,...S.explode,canvas.clientWidth,canvas.clientHeight].map(v=>v.toFixed(3)).join();if(key===placed)return;placed=key;
+ const[cx,cy]=project(vp,[S.active,slabY(0),-HZ*.15]),h=($('.sk-card.is-on',slide)?.offsetHeight)||0,top=Math.max(84+h,cy-30);
+ cardsWrap.style.transform=`translate(${(cx-cardsWrap.offsetWidth/2).toFixed(1)}px,${top.toFixed(1)}px)`;
+ // Layer names are printed on their own slab, near its front-left corner in view.
+ tags.forEach((t,i)=>{const[x,y]=project(vp,[Math.max(-HX+.42,S.camX-2.4),slabY(i)+.005,HZ-.2]);t.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) translate(0,-50%)`;t.style.opacity=String(i===0?1:Math.max(0,(S.explode[i-1]-.65)/.35));});
 }
 function loop(now){raf=requestAnimationFrame(loop);const dt=Math.min(.05,(now-(last||now))/1000);last=now;time+=dt;render();}
 function start(){if(!ready||raf||!active||!motion||document.hidden)return;last=0;raf=requestAnimationFrame(loop);}
 function stop(){cancelAnimationFrame(raf);raf=0;}
 
-/* Stage objects are decoded up front so switching never stalls. */
-const images=STAGES.map(s=>{const im=new Image();im.src='assets/journey/'+s.image;im.decode?.().catch(()=>{});return im;});
-function write(i){const s=STAGES[i];panel.count.textContent=pad(i+1);panel.name.textContent=s.name;panel.summary.textContent=s.summary;panel.lines.forEach((el,l)=>el.textContent=s.layers[l]);
- steps.forEach((b,k)=>b.setAttribute('aria-pressed',String(k===i)));slide.dataset.stage=String(i+1);}
-function showObject(i,animate){const next=objects[front^1],prev=objects[front];next.src=images[i].src;front^=1;placed='';
- if(g&&animate){g.killTweensOf([next,prev]);g.fromTo(next,{opacity:0,y:-22},{opacity:1,y:0,duration:.7,ease:'power3.out',delay:.3});g.to(prev,{opacity:0,y:8,duration:.3,ease:'power2.in'});}
- else{next.style.opacity='1';prev.style.opacity='0';if(g)g.set([next,prev],{y:0});}}
-function go(i,animate=motion){i=Math.max(0,Math.min(5,i));if(i===current)return;const previous=current;current=i;
- if(!g||!animate||!ready){S.active=X(i);write(i);showObject(i,false);render();return;}
- g.timeline({overwrite:true}).to(S,{stride:1,duration:.15}).to(S,{active:X(i),duration:.5+Math.abs(i-previous)*.16,ease:'power2.inOut'},0).to(S,{stride:0,duration:.2});
- showObject(i,true);
- const parts=[panel.name,panel.summary,...panel.lines],dir=i>previous?1:-1;panelTl?.progress(1);
- panelTl=g.timeline().to(parts,{opacity:0,y:-8*dir,duration:.2,ease:'power2.in',stagger:.02}).add(()=>write(i)).fromTo(parts,{opacity:0,y:12*dir},{opacity:1,y:0,duration:.55,ease:'power3.out',stagger:.04});}
-function focusLayer(l){const on=l>=0;rows.forEach((r,k)=>r.classList.toggle('is-focus',k===l));tags.forEach((t,k)=>t.classList.toggle('is-focus',k===l+1));
- const target=Object.fromEntries(S.hi.map((_,k)=>[k,k===l?1:0]));if(g&&motion){g.to(S.hi,{...target,duration:.4,overwrite:true});g.to(S,{any:on?1:0,duration:.4,overwrite:'auto'});}else{S.hi=S.hi.map((_,k)=>k===l?1:0);S.any=on?1:0;render();}}
-rows.forEach((r,l)=>{r.addEventListener('pointerenter',()=>focusLayer(l));r.addEventListener('pointerleave',()=>focusLayer(pinned));r.addEventListener('focus',()=>focusLayer(l));r.addEventListener('blur',()=>focusLayer(pinned));
- r.addEventListener('click',()=>{pinned=pinned===l?-1:l;rows.forEach((x,k)=>x.setAttribute('aria-pressed',String(k===pinned)));focusLayer(pinned>=0?pinned:l);});});
-steps.forEach((b,i)=>b.addEventListener('click',()=>go(i)));
+/* Steps: 0 the overview, then each stage (exam day and the result in parts), then the closing line. */
+const pad2=n=>String(n).padStart(2,'0');
+function write(n){const st=STEPS[n],i=st.stage;slide.dataset.view=i===-1?'overview':i===-2?'final':'stage';
+ panel.summary.textContent=st.text;
+ if(i>=0){panel.count.textContent=`${pad2(i+1)} / ${pad2(NS)}`+(st.phase?` · ${st.phase}`:'');panel.name.textContent=DATA.names[i];panel.sub.textContent=DATA.subs[i];panel.lines.forEach((el,l)=>el.textContent=DATA.layers[i][l]);}
+ else if(i===-1){panel.count.textContent='';panel.name.textContent='Seven stages';}
+ nodes.forEach((b,k)=>{b.setAttribute('aria-pressed',String(k===i));b.classList.toggle('is-done',i>=0&&k<i);});
+ rail.classList.toggle('is-idle',i===-1);rail.classList.toggle('is-all',i===-2);rail.style.setProperty('--jr-p',String(i===-2?1:i<0?0:i/(NS-1)));
+ cards.forEach((c,k)=>{const on=k===CARD[n];c.classList.toggle('is-on',on);c.setAttribute('aria-hidden',String(!on));});placed='';}
+function targets(n){const i=STEPS[n].stage,stage=i>=0;return{active:X(stage?i:3),band:stage?1:0,camX:stage?X(i)*.92:0,zoom:stage?.8:1,explode:(i===-2||open)?1:0};}
+function go(n,animate=motion){n=Math.max(0,Math.min(LAST,n));if(n===current&&!tl)return;const prev=current;current=n;const T=targets(n),moving=STEPS[n].stage!==STEPS[prev].stage;
+ if(!g||!animate||!ready){Object.assign(S,{active:T.active,band:T.band,camX:T.camX,zoom:T.zoom});S.explode=S.explode.map(()=>T.explode);write(n);placed='';render();return;}
+ const d=.7+Math.min(4,Math.abs(T.active-S.active))*.12;
+ g.to(S,{active:T.active,camX:T.camX,zoom:T.zoom,duration:d,ease:'power3.inOut',overwrite:'auto'});g.to(S,{band:T.band,duration:.5,overwrite:'auto'});
+ S.explode.forEach((v,l)=>g.to(S.explode,{[l]:T.explode,duration:1,ease:'power3.inOut',delay:T.explode?l*.08:(3-l)*.05,overwrite:'auto'}));
+ if(moving){const parts=[panel.count,panel.name,panel.sub,panel.summary,...panel.lines],dir=n>prev?1:-1;panelTl?.progress(1);
+  panelTl=g.timeline().to(parts,{opacity:0,y:-8*dir,duration:.2,ease:'power2.in',stagger:.02}).add(()=>write(n)).fromTo(parts,{opacity:0,y:12*dir},{opacity:1,y:0,duration:.55,ease:'power3.out',stagger:.04,clearProps:'opacity,transform'});}
+ else write(n);}
+function setOpen(on,animate=motion){open=on;more.setAttribute('aria-expanded',String(on));more.firstElementChild.textContent=on?'Hide the work behind this stage':'Show the work behind this stage';slide.classList.toggle('sk-open',on);
+ const e=(STEPS[current].stage===-2||on)?1:0;if(g&&animate&&ready)S.explode.forEach((v,l)=>g.to(S.explode,{[l]:e,duration:1,ease:'power3.inOut',delay:e?l*.08:(3-l)*.05,overwrite:'auto'}));else{S.explode=S.explode.map(()=>e);placed='';render();}}
+more.addEventListener('click',()=>setOpen(!open));
+nodes.forEach((b,i)=>b.addEventListener('click',()=>go(STEPS.findIndex(st=>st.stage===i))));
 let wheelSum=0,wheelLast=0,wheelTime=0;
 slide.addEventListener('wheel',e=>{if(!active||layout.flat||Math.abs(e.deltaX)>=Math.abs(e.deltaY))return;e.preventDefault();const now=Date.now();if(now-wheelLast>180)wheelSum=0;wheelLast=now;if(now-wheelTime<800)return;wheelSum+=e.deltaY;if(Math.abs(wheelSum)<60)return;go(current+Math.sign(wheelSum));wheelSum=0;wheelTime=now;},{passive:false});
 
-function intro(){tl?.kill();S.explode=[0,0,0,0];S.band=0;tl=g.timeline();S.explode.forEach((_,l)=>tl.to(S.explode,{[l]:1,duration:1.25,ease:'power3.inOut'},.5+l*.15));tl.to(S,{band:1,duration:.8,ease:'power2.out'},1.7);}
+function intro(){tl?.kill();S.explode=[1,1,1,1];tl=g.timeline();S.explode.forEach((_,l)=>tl.to(S.explode,{[l]:0,duration:1.2,ease:'power3.inOut'},1.1+(3-l)*.1));}
 function text(full){textTl?.kill();if(!g||!motion){settle();return;}const q=s=>$$(s,slide);
  textTl=g.timeline({defaults:{ease:'power3.out'}})
   .fromTo(q('.sk-kicker'),{opacity:0,y:10},{opacity:1,y:0,duration:.8},full?.1:0)
   .fromTo(q('.sk-title-line>span'),{yPercent:112},{yPercent:0,duration:1.15,stagger:.1,ease:'power4.out'},full?.18:.04)
-  .fromTo(q('.sk-candidate'),{opacity:0,y:14},{opacity:1,y:0,duration:.9},full?.6:.2)
-  .fromTo(rows,{opacity:0,x:-12},{opacity:1,x:0,duration:.8,stagger:.12},full?1:.3)
-  .fromTo(q('.sk-foot'),{opacity:0},{opacity:1,duration:.8},full?1.5:.4)
-  .fromTo(objects[front],{opacity:0,y:-30},{opacity:1,y:0,duration:1,ease:'power3.out'},full?1.9:.2);}
-function settle(){textTl?.kill();textTl=null;if(g){g.set([...$$('.sk-kicker,.sk-title-line>span,.sk-candidate,.sk-foot',slide),...rows],{clearProps:'opacity,transform'});g.set(objects[front],{opacity:1,y:0});}}
-function finish(){if(tl){tl.progress(1,true);tl.kill();tl=null;}S.explode=[1,1,1,1];S.band=1;S.active=X(current);S.stride=0;}
+  .fromTo(q('.sk-subtitle,.sk-candidate'),{opacity:0,y:14},{opacity:1,y:0,duration:.9,stagger:.12},full?.6:.2)
+  .fromTo(q('.sk-rail .jr-line'),{scaleX:0,transformOrigin:'0 50%'},{scaleX:1,duration:1.4,ease:'power2.inOut'},full?.4:.1)
+  .fromTo(q('.sk-rail li'),{opacity:0,y:10},{opacity:1,y:0,duration:.7,stagger:.08},full?.5:.12)
+  .fromTo(q('.sk-foot'),{opacity:0},{opacity:1,duration:.8},full?1.5:.4);}
+function settle(){textTl?.kill();textTl=null;if(g)g.set($$('.sk-kicker,.sk-title-line>span,.sk-subtitle,.sk-candidate,.sk-rail .jr-line,.sk-rail li,.sk-foot',slide),{clearProps:'opacity,transform'});}
+function finish(){if(tl){tl.progress(1,true);tl.kill();tl=null;}const T=targets(current);Object.assign(S,{active:T.active,band:T.band,camX:T.camX,zoom:T.zoom,stride:0});S.explode=S.explode.map(()=>T.explode);}
 document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
 new ResizeObserver(()=>{placed='';if(active&&!raf)render();}).observe(canvas);
 
 window.ELMY_STACK={
- id:'candidate',keys:['ArrowDown','ArrowUp'],
+ id:'candidate',keys:['ArrowDown','ArrowUp','PageDown','PageUp'],
  activate(s,on){motion=on;const was=active;active=s===slide;if(!active){stop();finish();textTl?.progress(1,true);if(was)played=true;return;}if(was)return;
   if(on&&g&&ready&&!played){played=true;intro();text(true);}else{finish();text(false);}placed='';render();start();},
  mode(on){motion=on;if(!on){finish();settle();stop();render();}else start();},
- key(k){go(current+(k==='ArrowDown'?1:-1));},
+ key(k){go(current+(['ArrowDown','PageDown'].includes(k)?1:-1));},
  go,
- debug:{S,render,get state(){return{current,ready,frames,failure:canvas.dataset.failure||null};},seek(t){time=t;render();}}
+ debug:{S,render,setOpen,get state(){return{current,open,ready,frames,failure:canvas.dataset.failure||null};},seek(t){time=t;render();}}
 };
 (window.ELMY_SCENES=window.ELMY_SCENES||[]).push(window.ELMY_STACK);
-init();write(0);showObject(0,false);
+write(0);init();
 })();

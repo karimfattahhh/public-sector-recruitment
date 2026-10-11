@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640">
+ <rect width="900" height="640" rx="28" fill="#ffffff"/>
+ <rect x="0.5" y="0.5" width="899" height="639" rx="28" fill="none" stroke="#10162b" stroke-opacity=".12"/>
+ <text x="56" y="86" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="600" letter-spacing="3" fill="#3445eb">SESSION RECORD · ILLUSTRATIVE</text>
+ <text x="56" y="136" font-family="Inter,Arial,sans-serif" font-size="38" font-weight="600" fill="#10162b">Examination session summary</text>
+ <g font-family="Inter,Arial,sans-serif" font-size="27" fill="#10162b">
+  <g transform="translate(56 200)"><circle cx="18" cy="-9" r="18" fill="#3445eb"/><path d="M9 -9 l6 6 l12 -13" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="56">Candidates admitted after ID check</text></g>
+  <g transform="translate(56 268)"><circle cx="18" cy="-9" r="18" fill="#3445eb"/><path d="M9 -9 l6 6 l12 -13" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="56">Submissions matched to candidates</text></g>
+  <g transform="translate(56 336)"><circle cx="18" cy="-9" r="18" fill="#3445eb"/><path d="M9 -9 l6 6 l12 -13" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="56">Objective questions scored</text></g>
+  <g transform="translate(56 404)"><circle cx="18" cy="-9" r="18" fill="#ccefad"/><text x="10" y="1" font-size="22" font-weight="700" fill="#10162b">!</text><text x="56">Exceptions recorded for review</text></g>
+  <g transform="translate(56 472)"><circle cx="18" cy="-9" r="18" fill="none" stroke="#10162b" stroke-opacity=".3" stroke-width="3"/><text x="56" fill="#10162b" fill-opacity=".55">Results held for authorised approval</text></g>
+ </g>
+ <rect x="588" y="530" width="256" height="54" rx="27" fill="#10162b"/>
+ <text x="716" y="566" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="600" fill="#ccefad">Ready for review</text>
+</svg>

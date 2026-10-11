@@ -1,5 +1,5 @@
-/* Slide 9: from vision to execution. A live evidence stage (halftone plans developing into the
-   report's photographs) beside the chapters, with the documented figures along the bottom. */
+/* Slide 9: From operational challenges to institutional impact. A live evidence stage (halftone
+   plans developing into anonymised photographs) beside the four evidence areas. No figures. */
 .slide[data-semantic-id=experience]{--pad:6vw;padding:0;background:#f5f6fa;color:#10162b}
 .ev-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#f5f6fa}
 .ev-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -13,14 +13,15 @@
 .ev-card.is-dev .ev-cap{opacity:1;transform:none}
 .ev-card.is-small .ev-cap{display:none}
 
-.ev-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(98px,13.5vh,140px);width:min(30vw,430px)}
+.ev-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(96px,12.5vh,130px);width:min(32vw,470px)}
 .ev-kicker{display:flex;align-items:center;gap:14px;margin:0;white-space:nowrap;font-size:clamp(11px,.72vw,13.5px);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#10162bb3}
 .ev-kicker span:first-child{color:#3445eb}
 .ev-kicker i{width:30px;height:1px;background:#10162b40}
-.slide .ev-title{width:max-content;max-width:none;margin:.3em 0 .5em;white-space:nowrap;font-size:min(4.4vw,7.4vh);line-height:.98;font-weight:500;letter-spacing:-.058em;color:#10162b}
+.slide .ev-title{width:max-content;max-width:none;margin:.3em 0 0;white-space:nowrap;font-size:min(3.3vw,5.8vh);line-height:.98;font-weight:500;letter-spacing:-.058em;color:#10162b}
 .ev-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
 .ev-line>span{display:block;will-change:transform}
 .slide .ev-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.04em;color:#3445eb}
+.slide .ev-subtitle{margin:.8em 0 clamp(16px,3vh,28px);max-width:none;font-size:clamp(14.5px,1.1vw,18px);line-height:1.45;color:#4a5068}
 .ev-list{margin:0;padding:0;list-style:none;border-bottom:1px solid #10162b1f}
 .ev-list li{border-top:1px solid #10162b1f}
 .slide .ev-ch{display:grid;grid-template-columns:34px 1fr auto;align-items:center;width:100%;min-width:0;max-width:none;margin:0;padding:clamp(9px,1.35vh,13px) 8px clamp(9px,1.35vh,13px) 0;border:0;border-radius:0;background:none;box-shadow:none;color:#10162b99;font:inherit;font-size:clamp(14.5px,1.06vw,17px);font-weight:500;text-align:left;cursor:pointer;transition:color .3s,background-color .3s}
@@ -34,21 +35,14 @@
 .ev-detail{margin-top:clamp(16px,2.6vh,24px)}
 .slide .ev-detail h3{max-width:none;margin:0 0 8px;font-size:clamp(22px,1.95vw,32px);line-height:1.12;font-weight:500;letter-spacing:-.035em;color:#10162b}
 .slide .ev-detail .ev-text{max-width:42ch;margin:0;font-size:clamp(14px,1.02vw,16.5px);line-height:1.55;color:#10162bc7}
-.ev-detail small{display:block;margin-top:10px;font-size:11px;letter-spacing:.06em;color:#3445ebcc}
+.slide .ev-final{margin:16px 0 0;max-width:18ch;font-size:clamp(20px,1.7vw,28px);line-height:1.22;font-weight:500;letter-spacing:-.033em;color:#10162b}
+.slide .ev-final em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;color:#3445eb}
+.slide:not([data-view=final]) .ev-final{display:none}
 
-.ev-metrics{position:absolute;z-index:3;left:var(--pad);right:var(--pad);bottom:clamp(110px,13.6vh,126px);display:grid;grid-template-columns:repeat(4,1fr);column-gap:clamp(20px,2.4vw,40px);padding-top:clamp(12px,1.8vh,18px);border-top:1px solid #10162b26}
-.ev-m{display:flex;flex-direction:column;gap:5px;min-width:0}
-.ev-m strong{display:flex;align-items:baseline;gap:8px;font-size:clamp(30px,3vw,50px);font-weight:500;line-height:1;letter-spacing:-.05em;color:#10162b;font-variant-numeric:tabular-nums;white-space:nowrap}
-.ev-m strong b{font-weight:500}
-.ev-m strong small{font-size:max(10px,.26em);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#10162b80}
-.ev-m:first-child strong{color:#3445eb}
-.ev-m>span{font-size:clamp(10px,.68vw,11.5px);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#10162b99;white-space:nowrap}
-.ev-meter{grid-column:1/3;grid-row:2;position:relative;height:12px;margin-top:12px;background:repeating-linear-gradient(90deg,#10162b2b 0 1.5px,transparent 1.5px 5px)}
-.ev-meter-fill{--p:1;position:absolute;left:0;top:0;bottom:0;width:67.357%;background:repeating-linear-gradient(90deg,#3445eb 0 1.5px,transparent 1.5px 5px);clip-path:inset(0 calc((1 - var(--p)) * 100%) 0 0)}
 .slide .ev-foot{position:absolute;z-index:3;left:var(--pad);bottom:clamp(74px,8.6vh,82px);max-width:none;margin:0;font-size:11px;color:#10162b99}
 
-@media(max-aspect-ratio:29/20) and (min-width:901px){.ev-copy{width:min(36vw,430px)}.ev-m strong{font-size:clamp(26px,3vw,40px)}}
-@media(max-height:760px) and (min-width:901px){.ev-copy{top:90px}.slide .ev-title{font-size:min(4.2vw,6.6vh)}.slide .ev-ch{padding-top:7px;padding-bottom:7px;font-size:14.5px}.ev-detail{margin-top:12px}.slide .ev-detail h3{font-size:22px}.slide .ev-detail .ev-text{font-size:13.5px}.ev-detail small{margin-top:6px}.ev-m strong{font-size:clamp(28px,2.8vw,40px)}.ev-meter{margin-top:8px}.ev-metrics{bottom:100px}}
+@media(max-aspect-ratio:29/20) and (min-width:901px){.ev-copy{width:min(38vw,420px)}.slide .ev-title{font-size:min(3.4vw,5.4vh)}}
+@media(max-height:760px) and (min-width:901px){.ev-copy{top:86px}.slide .ev-title{font-size:min(3.2vw,5.4vh)}.slide .ev-subtitle{margin-bottom:12px}.slide .ev-ch{padding-top:7px;padding-bottom:7px;font-size:14.5px}.ev-detail{margin-top:12px}.slide .ev-detail h3{font-size:21px}.slide .ev-detail .ev-text{font-size:13.5px}.slide .ev-final{font-size:20px;margin-top:10px}}
 
 /* Screens without WebGL: the images as a plain grid. */
 .ev-flat .ev-canvas{display:none}
@@ -63,11 +57,13 @@
  .ev-copy{display:contents}
  .ev-kicker{order:1;padding:92px var(--pad) 0}
  .slide .ev-title{order:2;width:auto;margin:.3em var(--pad) .2em;white-space:normal;font-size:min(11vw,48px)}
- .ev-stage{order:3;position:relative;inset:auto;flex:none;height:min(112vw,520px);margin:6px 0}
+ .ev-stage{order:3;flex-shrink:0;position:relative;inset:auto;flex:none;height:min(112vw,520px);margin:6px 0}
  .ev-list{order:4;margin:0 var(--pad)}
  .ev-detail{order:5;margin:18px var(--pad) 0}
- .ev-metrics{order:6;position:relative;left:auto;right:auto;bottom:auto;margin:26px var(--pad) 0;grid-template-columns:1fr 1fr;row-gap:18px}
+ .slide .ev-subtitle{order:3;margin:.6em var(--pad) 0}
+ .slide .ev-final{order:6;margin:16px var(--pad) 0}
  .slide .ev-foot{order:7;position:relative;left:auto;bottom:auto;margin:16px var(--pad) 100px}
  .ev-flat .ev-stage{height:auto}
  .ev-flat .ev-cards{position:relative;left:auto;right:auto;top:auto;bottom:auto;margin:0 var(--pad)}
 }
+@media(max-width:900px){.ev-cap{white-space:normal;text-overflow:clip;font-size:10.5px}}

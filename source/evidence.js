@@ -1,17 +1,19 @@
-/* Evidence scene: the documented UNRWA cycle. Each chapter's report images arrive as a cobalt
-   halftone "plan" and a scan line develops them into the real photograph: from vision to execution.
-   Images keep their own proportions in a justified collage; figures count up below. Local WebGL and
-   GSAP only; the images are listed in source/media.js. */
+/* Slide 9 (Nizar brief): From operational challenges to institutional impact. One anonymised
+   project in steps: the context, four evidence areas, then its relevance to the Board. Each step's
+   anonymised images arrive as a cobalt halftone "plan" and a scan line develops them into the
+   photograph. No client name and no figures. Images keep their proportions in a justified collage.
+   Local WebGL and GSAP only; the images are listed in source/media.js. */
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const slide=$('[data-semantic-id="experience"]');if(!slide||!window.ELMY_LIGHT||!window.PROJECT_MEDIA)return;
 const g=window.gsap,MEDIA=window.PROJECT_MEDIA,CH=JSON.parse($('.ev-data',slide).textContent);
-const canvas=$('.ev-canvas',slide),layer=$('.ev-cards',slide),chapters=$$('.ev-ch',slide),metrics=$('.ev-metrics',slide),fill=$('.ev-meter-fill',slide);
-const detail={title:$('.ev-detail h3',slide),text:$('.ev-text',slide),source:$('.ev-detail small',slide)};
-$$('.ev-k',slide).forEach((b,i)=>b.textContent=String(MEDIA[i].length));
+const canvas=$('.ev-canvas',slide),layer=$('.ev-cards',slide),chapters=$$('.ev-ch',slide),copy=$('.ev-copy',slide),LAST=CH.length-1;
+const detail={title:$('.ev-detail h3',slide),text:$('.ev-text',slide)};
+// The four evidence areas are steps 1-4; the list shows how many images each holds.
+$$('.ev-k',slide).forEach((b,i)=>b.textContent=String(MEDIA[i+1].length));
 
 /* Images, decoded up front; each becomes a texture once loaded. */
-const items=MEDIA.map((list,c)=>list.map(([file,caption,page])=>({file,caption,page,c})));
+const items=MEDIA.map((list,c)=>list.map(([file,caption])=>({file,caption,c})));
 const all=items.flat();all.forEach((m,i)=>{m.i=i;m.img=new Image();m.img.decoding='async';m.img.src='assets/project/'+m.file;m.tex=null;m.img.decode?.().catch(()=>{});});
 const aspect=m=>m.img.naturalWidth?m.img.naturalWidth/m.img.naturalHeight:1.5;
 
@@ -70,7 +72,7 @@ let stage={x:0,y:0,w:1,h:1},layoutKey='';
 function measure(){window.ELMY_LIGHT.fit(canvas);const W=canvas.clientWidth,H=canvas.clientHeight,phone=innerWidth<=900,key=[W,H,phone,current,all.filter(m=>m.img.naturalWidth).length].join();
  if(key===layoutKey)return;layoutKey=key;
  if(phone)stage={x:14,y:8,w:W-28,h:H-16};
- else{const top=slide.getBoundingClientRect().top,mt=metrics.getBoundingClientRect().top-top,x0=W*(W/H<1.45?.46:.42),y0=Math.min(140,Math.max(98,H*.135));stage={x:x0,y:y0,w:W-Math.max(W*.055,40)-x0,h:mt-34-y0};}
+ else{const x0=Math.max(W*(W/H<1.45?.47:.43),copy.getBoundingClientRect().right+40),y0=Math.min(140,Math.max(98,H*.135)),y1=H-Math.max(118,H*.14);stage={x:x0,y:y0,w:W-Math.max(W*.055,40)-x0,h:y1-y0};}
  placeCards(cards.filter(c=>c.c===current));}
 function placeCards(set){const rects=justify(set.map(c=>aspect(c.m)),stage.w,stage.h,12);
  set.forEach((c,k)=>{const[x,y,w,h]=rects[k];c.rect=[stage.x+x,stage.y+y,w,h];Object.assign(c.el.style,{left:c.rect[0].toFixed(1)+'px',top:c.rect[1].toFixed(1)+'px',width:w.toFixed(1)+'px',height:h.toFixed(1)+'px'});c.el.classList.toggle('is-small',w<120||h<70);});}
@@ -86,17 +88,17 @@ function start(){if(!ready||raf||!active||!motion||document.hidden)return;last=0
 function stop(){cancelAnimationFrame(raf);raf=0;}
 
 /* Cards: one per image of the current chapter, with an accessible button over each for enlarging. */
-let cards=[],current=2,active=false,motion=true,played=false,time=0,last=0,raf=0,frames=0,textTl=null,panelTl=null;
-function makeCard(m){const el=document.createElement('button');el.type='button';el.className='ev-card';el.setAttribute('aria-label',`Enlarge ${m.caption}, UNRWA report page ${m.page}`);
- el.innerHTML=`<img src="assets/project/${m.file}" alt="" decoding="async"><span class="ev-cap">${m.caption}<i>p. ${m.page}</i></span>`;layer.append(el);
+let cards=[],current=0,active=false,motion=true,played=false,time=0,last=0,raf=0,frames=0,textTl=null,panelTl=null;
+function makeCard(m){const el=document.createElement('button');el.type='button';el.className='ev-card';el.setAttribute('aria-label',`Enlarge: ${m.caption}`);
+ el.innerHTML=`<img src="assets/project/${m.file}" alt="" decoding="async"><span class="ev-cap">${m.caption}</span>`;layer.append(el);
  const c={m,c:m.c,el,rect:null,in:0,dev:0,hover:0,dir:1};
  el.addEventListener('pointerenter',()=>tw(c,{hover:1},.35));el.addEventListener('pointerleave',()=>tw(c,{hover:0},.35));el.addEventListener('focus',()=>tw(c,{hover:1},.35));el.addEventListener('blur',()=>tw(c,{hover:0},.35));
  el.addEventListener('click',()=>openMedia(m,el));return c;}
 const tw=(o,v,d)=>{if(g&&motion&&ready)g.to(o,{...v,duration:d,ease:'power2.out',overwrite:'auto'});else{Object.assign(o,v);render();}};
 function openMedia(m,trigger){let d=document.getElementById('media-dialog');
  if(!d){d=document.createElement('dialog');d.id='media-dialog';d.innerHTML='<div><p></p><button type="button">Close ×</button></div><img alt="">';document.body.append(d);d.querySelector('button').onclick=()=>d.close();d.addEventListener('close',()=>window.lastMediaTrigger?.focus());}
- window.lastMediaTrigger=trigger;const cap=`${m.caption} · UNRWA report, p. ${m.page}`;d.querySelector('img').src='assets/project/'+m.file;d.querySelector('img').alt=cap;d.querySelector('p').textContent=cap;d.showModal();}
-function write(i){const c=CH[i];detail.title.textContent=c.title;detail.text.textContent=c.text;detail.source.textContent=c.source;chapters.forEach((b,k)=>b.setAttribute('aria-pressed',String(k===i)));slide.dataset.chapter=String(i+1);}
+ window.lastMediaTrigger=trigger;const cap=m.caption;d.querySelector('img').src='assets/project/'+m.file;d.querySelector('img').alt=cap;d.querySelector('p').textContent=cap;d.showModal();}
+function write(i){const c=CH[i];detail.title.textContent=c.title;detail.text.textContent=c.text;chapters.forEach((b,k)=>b.setAttribute('aria-pressed',String(k+1===i)));slide.dataset.chapter=String(i);slide.dataset.view=i===0?'intro':i===LAST?'final':'area';}
 function show(i,animate){const old=cards;old.forEach(c=>{c.el.classList.remove('is-dev');c.el.tabIndex=-1;});
  const next=items[i].map(makeCard);cards=[...old,...next];layoutKey='';measure();
  if(!animate){old.forEach(c=>c.el.remove());cards=next;next.forEach(c=>{c.in=1;c.dev=1;c.el.classList.add('is-dev');});render();return;}
@@ -105,16 +107,12 @@ function show(i,animate){const old=cards;old.forEach(c=>{c.el.classList.remove('
   g.to(c,{dev:1,duration:1.05,delay:.6+k*.16,ease:'power2.inOut',onComplete:()=>c.el.classList.add('is-dev')});});}
 function go(i,animate=motion){i=Math.max(0,Math.min(CH.length-1,i));if(i===current)return;const dir=i>current?1:-1;current=i;
  if(!g||!animate||!ready){write(i);show(i,false);return;}
- show(i,true);const parts=[detail.title,detail.text,detail.source];panelTl?.progress(1);
+ show(i,true);const parts=[detail.title,detail.text];panelTl?.progress(1);
  panelTl=g.timeline().to(parts,{opacity:0,y:-8*dir,duration:.2,ease:'power2.in',stagger:.02}).add(()=>write(i)).fromTo(parts,{opacity:0,y:12*dir},{opacity:1,y:0,duration:.55,ease:'power3.out',stagger:.05});}
-chapters.forEach((b,i)=>b.addEventListener('click',()=>go(i)));
+chapters.forEach((b,i)=>b.addEventListener('click',()=>go(i+1)));
 let wheelSum=0,wheelLast=0,wheelTime=0;
 slide.addEventListener('wheel',e=>{if(!active||innerWidth<=900||Math.abs(e.deltaX)>=Math.abs(e.deltaY))return;e.preventDefault();const now=Date.now();if(now-wheelLast>180)wheelSum=0;wheelLast=now;if(now-wheelTime<800)return;wheelSum+=e.deltaY;if(Math.abs(wheelSum)<60)return;go(current+Math.sign(wheelSum));wheelSum=0;wheelTime=now;},{passive:false});
 
-/* Figures: counts and the capacity meter (943 of up to 1,400). */
-const nums=$$('.ev-num',slide),fmt=n=>Math.round(n).toLocaleString('en-US');
-function figures(at){nums.forEach((e,k)=>{const v={n:0},to=+e.dataset.to;e.textContent='0';textTl.to(v,{n:to,duration:1.5,ease:'power3.out',onUpdate:()=>e.textContent=fmt(v.n)},at+k*.1);});
- textTl.fromTo(fill,{'--p':0},{'--p':1,duration:1.6,ease:'power3.inOut'},at+.1);}
 function intro(){cards.forEach(c=>{c.in=0;c.dev=0;c.el.classList.remove('is-dev');g.killTweensOf(c);});
  cards.forEach((c,k)=>{g.to(c,{in:1,duration:.7,delay:.55+k*.07,ease:'power3.out'});g.to(c,{dev:1,duration:1.1,delay:1.05+k*.17,ease:'power2.inOut',onComplete:()=>c.el.classList.add('is-dev')});});}
 function text(full){textTl?.kill();if(!g||!motion){settle();return;}const q=s=>$$(s,slide);
@@ -122,24 +120,21 @@ function text(full){textTl?.kill();if(!g||!motion){settle();return;}const q=s=>$
   .fromTo(q('.ev-kicker'),{opacity:0,y:10},{opacity:1,y:0,duration:.8},full?.1:0)
   .fromTo(q('.ev-line>span'),{yPercent:112},{yPercent:0,duration:1.15,stagger:.1,ease:'power4.out'},full?.18:.04)
   .fromTo(q('.ev-list li'),{opacity:0,x:-12},{opacity:1,x:0,duration:.7,stagger:.07},full?.55:.15)
-  .fromTo(q('.ev-detail'),{opacity:0,y:12},{opacity:1,y:0,duration:.8},full?.8:.25)
-  .fromTo(q('.ev-m,.ev-meter'),{opacity:0,y:14},{opacity:1,y:0,duration:.8,stagger:.08},full?.9:.3)
-  .fromTo(q('.ev-foot'),{opacity:0},{opacity:1,duration:.8},full?1.4:.45);
- if(full)figures(1);}
-function settle(){textTl?.kill();textTl=null;nums.forEach(e=>e.textContent=fmt(+e.dataset.to));fill.style.setProperty('--p','1');
- if(g)g.set($$('.ev-kicker,.ev-line>span,.ev-list li,.ev-detail,.ev-m,.ev-meter,.ev-foot',slide),{clearProps:'opacity,transform'});}
-function finish(){nums.forEach(e=>e.textContent=fmt(+e.dataset.to));fill.style.setProperty('--p','1');cards.forEach(c=>{if(g)g.killTweensOf(c);});cards.filter(c=>c.c!==current).forEach(c=>c.el.remove());cards=cards.filter(c=>c.c===current);
+  .fromTo(q('.ev-subtitle,.ev-detail,.ev-final'),{opacity:0,y:12},{opacity:1,y:0,duration:.8,stagger:.08},full?.5:.2)
+  .fromTo(q('.ev-foot'),{opacity:0},{opacity:1,duration:.8},full?1.4:.45);}
+function settle(){textTl?.kill();textTl=null;if(g)g.set($$('.ev-kicker,.ev-line>span,.ev-subtitle,.ev-list li,.ev-detail,.ev-final,.ev-foot',slide),{clearProps:'opacity,transform'});}
+function finish(){cards.forEach(c=>{if(g)g.killTweensOf(c);});cards.filter(c=>c.c!==current).forEach(c=>c.el.remove());cards=cards.filter(c=>c.c===current);
  cards.forEach(c=>{c.in=1;c.dev=1;c.dir=1;c.el.classList.add('is-dev');c.el.tabIndex=0;});}
 document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
 new ResizeObserver(()=>{layoutKey='';if(active){if(!raf)render();else measure();}}).observe(canvas);
 addEventListener('resize',()=>{layoutKey='';});
 
 window.ELMY_EVIDENCE={
- id:'experience',keys:['ArrowDown','ArrowUp'],
+ id:'experience',keys:['ArrowDown','ArrowUp','PageDown','PageUp'],
  activate(s,on){motion=on;const was=active;active=s===slide;if(!active){stop();textTl?.progress(1,true);finish();if(was)played=true;return;}if(was)return;
   if(on&&g&&ready&&!played){played=true;intro();text(true);}else{finish();text(false);}layoutKey='';render();start();},
  mode(on){motion=on;if(!on){finish();settle();stop();render();}else start();},
- key(k){go(current+(k==='ArrowDown'?1:-1));},
+ key(k){go(current+(['ArrowDown','PageDown'].includes(k)?1:-1));},
  go,
  debug:{get cards(){return cards;},render,get stage(){return stage;},get state(){return{current,ready,frames,failure:canvas.dataset.failure||null,textures:all.filter(m=>m.tex).length};},seek(t){time=t;render();}}
 };

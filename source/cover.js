@@ -1,10 +1,11 @@
-/* Opening scene: a live answer sheet is scanned, then resolves into a recruitment path where
-   candidates pass stage gateways that feed intelligence nodes. Local WebGL and GSAP only;
-   assets/hero.png remains the no-WebGL fallback. */
+/* Opening scene: a live examination sheet is scanned while the title stands alone. Revealing the
+   subtitle streams the sheet into a connected path where candidates pass stage gateways that feed
+   intelligence nodes: beyond examinations. The presenter identity follows. Local WebGL and GSAP
+   only; assets/hero.png remains the no-WebGL fallback. */
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const slide=$('[data-semantic-id="opening"]');if(!slide)return;
-const g=window.gsap,stage=$('.cover-stage',slide),canvas=$('.cover-canvas',slide),toggles=$$('[data-cover-state]',slide),shift=$('.cover-shift',slide);
+const g=window.gsap,stage=$('.cover-stage',slide),canvas=$('.cover-canvas',slide);
 
 const{rng,sub,norm,M,compose,FS_POINTS,VS_FLAT,FS_LINE,FS_SPARK,VS_BG,FS_BG}=window.ELMY_LIGHT;
 const rand=rng(1907);
@@ -177,7 +178,7 @@ function init(){
 
 /* Scene state, animated by GSAP. */
 const S={assemble:1,scan:1,scanVis:0,morph:1};
-let current=1,goal=1,motion=true,active=false,played=false,time=0,people=0,last=0,raf=0,tl=null,textTl=null,lastShift=-1,frames=0,rays=0;
+let goal=1,step=2,motion=true,active=false,played=false,time=0,people=0,last=0,raf=0,tl=null,textTl=null,frames=0,rays=0;
 const look={yaw:0,pitch:0,ty:0,tp:0};
 let layout={shift:[.42,.02],fov:CAMERA.fov,mobile:false};
 
@@ -244,7 +245,6 @@ function render(){
    gl.uniformMatrix4fv(info.u.uProj,false,proj);gl.uniformMatrix4fv(info.u.uView,false,view);gl.uniformMatrix4fv(info.u.uWorld,false,world);gl.uniform2f(info.u.uShift,layout.shift[0],layout.shift[1]);
    if(info.u.uPx)gl.uniform1f(info.u.uPx,px);gl.uniform1f(info.u.uVis,visB);gl.uniform2f(info.u.uFog,6,.055);gl.uniform1f(info.u.uMirror,0);gl.drawArrays(mode,0,count);}
  }
- const shown=Math.round(m*1000)/1000;if(shown!==lastShift){lastShift=shown;shift?.style.setProperty('--shift',String(shown));}
  frames++;
 }
 function loop(now){raf=requestAnimationFrame(loop);const dt=Math.min(.05,(now-(last||now))/1000);last=now;time+=dt;if(S.morph>.9)people+=dt*Math.min(1,(S.morph-.9)*10);
@@ -252,33 +252,27 @@ function loop(now){raf=requestAnimationFrame(loop);const dt=Math.min(.05,(now-(l
 function start(){if(!ready||raf||!active||!motion||document.hidden)return;last=0;raf=requestAnimationFrame(loop);}
 function stop(){cancelAnimationFrame(raf);raf=0;}
 
-/* Interface state: the two phrases control the illustration. */
-function ui(i){current=i;toggles.forEach(t=>t.setAttribute('aria-pressed',String(+t.dataset.coverState===i)));slide.dataset.coverState=String(i);}
+/* Presenter reveals: 0 the title alone over the examination sheet, 1 the subtitle as the sheet
+   becomes the connected path, 2 the presenter identity. */
+const STEPS=2;
 function kill(){tl?.kill();tl=null;}
-function finish(){if(tl){tl.progress(1,true);kill();}Object.assign(S,{assemble:1,scan:1,scanVis:0,morph:goal});ui(goal);}
-function go(i,animate=motion){i=i?1:0;if(i===goal&&!tl)return;goal=i;ui(i);kill();
+function finish(){if(tl){tl.progress(1,true);kill();}Object.assign(S,{assemble:1,scan:1,scanVis:0,morph:goal});}
+function go(i,animate=motion){i=i?1:0;if(i===goal&&!tl)return;goal=i;kill();
  if(!g||!animate||!ready){Object.assign(S,{assemble:1,scan:1,scanVis:0,morph:i});render();return;}
  if(i===0)tl=g.timeline().to(S,{assemble:1,duration:.6},0).to(S,{morph:0,duration:2.4,ease:'power2.inOut'},0).set(S,{scan:0},.2).to(S,{scanVis:1,duration:.3},1.9).to(S,{scan:1,duration:1.5,ease:'power1.inOut'},2).to(S,{scanVis:0,duration:.5},3.4);
  else tl=g.timeline().to(S,{assemble:1,duration:.6},0).to(S,{scanVis:0,duration:.3},0).to(S,{scan:1,duration:.3},0).to(S,{morph:1,duration:2.9,ease:'power2.inOut'},0);
 }
-function intro(){kill();goal=1;Object.assign(S,{assemble:0,scan:0,scanVis:0,morph:0});ui(0);
+function setStep(i,animate=motion){i=Math.max(0,Math.min(STEPS,i));step=i;slide.dataset.coverStep=String(i);go(i>=1?1:0,animate);}
+function intro(){kill();goal=0;Object.assign(S,{assemble:0,scan:0,scanVis:0,morph:0});
  tl=g.timeline()
   .to(S,{assemble:1,duration:2.2,ease:'power2.out'},.1)
-  .to(S,{scanVis:1,duration:.35},1.45).to(S,{scan:1,duration:1.75,ease:'power1.inOut'},1.5).to(S,{scanVis:0,duration:.5},3.25)
-  .add(()=>ui(1),3.7).to(S,{morph:1,duration:3.1,ease:'power2.inOut'},3.55);
+  .to(S,{scanVis:1,duration:.35},1.45).to(S,{scan:1,duration:1.75,ease:'power1.inOut'},1.5).to(S,{scanVis:0,duration:.5},3.25);
 }
 function text(full){textTl?.kill();if(!g||!motion){settleText();return;}
- const q=s=>$$(s,slide);textTl=g.timeline({defaults:{ease:'power3.out'}})
-  .fromTo(q('.cover-kicker'),{opacity:0,y:10},{opacity:1,y:0,duration:.9},full?.3:0)
-  .fromTo(q('.cover-line>span'),{yPercent:112},{yPercent:0,duration:1.3,stagger:.11,ease:'power4.out'},full?.42:.05)
-  .fromTo(q('.cover-shift'),{opacity:0,y:14},{opacity:1,y:0,duration:1},full?1.1:.35)
-  .fromTo(q('.cover-begin'),{opacity:0,y:14},{opacity:1,y:0,duration:1},full?1.3:.45)
-  .fromTo(q('.cover-meta'),{'--rule':0},{'--rule':1,duration:1.6,ease:'power2.inOut'},full?1.35:.4)
-  .fromTo(q('.cover-meta>div'),{opacity:0,y:8},{opacity:1,y:0,duration:.9,stagger:.09},full?1.55:.5);
+ textTl=g.timeline().fromTo($$('.cover-line>span',slide),{yPercent:112},{yPercent:0,duration:1.3,stagger:.11,ease:'power4.out'},full?.35:.05);
 }
-function settleText(){textTl?.kill();textTl=null;if(g)g.set($$('.cover-kicker,.cover-line>span,.cover-shift,.cover-begin,.cover-meta,.cover-meta>div',slide),{clearProps:'opacity,transform,--rule'});}
+function settleText(){textTl?.kill();textTl=null;if(g)g.set($$('.cover-line>span',slide),{clearProps:'transform'});}
 
-toggles.forEach(t=>t.addEventListener('click',()=>go(+t.dataset.coverState)));
 addEventListener('pointermove',e=>{if(!active||layout.mobile)return;look.ty=(e.clientX/innerWidth-.5)*.16;look.tp=(e.clientY/innerHeight-.5)*.07;},{passive:true});
 document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
 new ResizeObserver(()=>{if(active&&!raf)render();}).observe(canvas);
@@ -288,12 +282,16 @@ window.ELMY_COVER={
  activate(s,on){motion=on;const was=active;active=s===slide;document.body.classList.toggle('on-cover',active);
   if(!active){stop();finish();textTl?.progress(1,true);played=true;return;}
   if(was)return;
-  if(on&&g&&ready&&!played){played=true;intro();text(true);}else{finish();text(false);}
+  // First visit starts on the title alone; returning to the cover shows it complete.
+  if(!played){played=true;step=0;slide.dataset.coverStep='0';if(on&&g&&ready){intro();text(true);}else{goal=0;finish();text(false);}}
+  else{step=STEPS;slide.dataset.coverStep=String(STEPS);goal=1;finish();text(false);}
   render();start();},
  mode(on){motion=on;if(!on){finish();settleText();stop();look.ty=look.tp=0;look.yaw=look.pitch=0;render();}else start();},
- key(k){go(k==='ArrowUp'?0:1);},
- go,
- debug:{S,at(t,p=0){if(!tl||!tl.paused()){intro();text(true);}tl.pause().time(t);textTl?.pause().time(t);ui(t>=3.7?1:0);time=t;people=p;render();},replay(){if(!g||!ready)return;played=true;intro();text(true);start();},seek(o={}){if(o.time!==undefined)time=o.time;if(o.people!==undefined)people=o.people;Object.assign(S,o.state||{});render();},get state(){return{...S,current,goal,ready,time,people,frames,particles:total,rays,canvas:[canvas.width,canvas.height]};}}
+ key(k){if(k==='ArrowUp')setStep(step-1);else if(step<STEPS)setStep(step+1);else document.getElementById('next')?.click();},
+ next(){if(step>=STEPS)return false;setStep(step+1);return true;},
+ prev(){if(step<=0)return false;setStep(step-1);return true;},
+ get step(){return step;},
+ debug:{S,at(t,p=0){if(!tl||!tl.paused()){intro();text(true);}tl.pause().time(t);textTl?.pause().time(t);time=t;people=p;render();},step:setStep,replay(){if(!g||!ready)return;played=true;intro();text(true);start();},seek(o={}){if(o.time!==undefined)time=o.time;if(o.people!==undefined)people=o.people;Object.assign(S,o.state||{});render();},get state(){return{...S,step,goal,ready,time,people,frames,particles:total,rays,canvas:[canvas.width,canvas.height]};}}
 };
 (window.ELMY_SCENES=window.ELMY_SCENES||[]).push(window.ELMY_COVER);
 init();

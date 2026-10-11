@@ -1,75 +1,112 @@
-/* Slide 2: the recruitment continuum. Full-bleed live colonnade, editorial reading panel and
-   stage labels that follow their gateways. */
+/* Slide 2: Behind every recruitment cycle. Full-bleed live journey, an editorial reading panel that
+   holds one stage at a time, and the shared seven-stage rail along the bottom. */
 .slide[data-semantic-id=institution]{--pad:6vw;padding:0;background:#0b1228;color:#f5f6fa}
 .ct-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#0b1228}
 .ct-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.ct-fallback{display:none;position:absolute;right:7vw;top:50%;width:min(44vw,620px);transform:translateY(-46%)}
+.ct-fallback{display:none;position:absolute;right:7vw;top:50%;width:min(40vw,560px);transform:translateY(-52%)}
 .ct-stage.is-fallback .ct-canvas{display:none}
 .ct-stage.is-fallback .ct-fallback{display:block}
-.ct-film{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0b1228eb 0%,#0b1228b8 24%,#0b122833 38%,#0b122800 50%),linear-gradient(180deg,#0b12288c 0%,#0b122800 15%,#0b122800 80%,#0b1228b3 100%)}
-.ct-tags{position:absolute;inset:0;pointer-events:none}
-.ct-tags>span{position:absolute;left:0;top:0;opacity:0;will-change:transform}
-.ct-pillar{padding:6px 11px;border-radius:999px;background:#0b1228c7;border:1px solid #c3c6ff38;font-size:clamp(9px,.62vw,11px);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#c3c6ffd9;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:color .5s,background-color .5s,border-color .5s,box-shadow .5s}
-.ct-pillar.is-on{color:#10162b;background:#ccefad;border-color:#ccefad;box-shadow:0 0 28px #ccefad73}
-.ct-lintel{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;white-space:nowrap}
-.ct-lintel b{font-size:clamp(11px,.78vw,14px);font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#f5f6fa}
-.ct-lintel small{font-size:clamp(9px,.62vw,11px);font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#c3c6ff99}
+.ct-film{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0b1228f2 0%,#0b1228c4 26%,#0b122838 41%,#0b122800 52%),linear-gradient(180deg,#0b12288c 0%,#0b122800 15%,#0b122800 66%,#0b1228d9 86%,#0b1228 100%)}
 
-.ct-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(100px,14.5vh,150px);width:min(31vw,600px);display:flex;flex-direction:column;align-items:flex-start}
+/* Labels that follow the scene: the lintel, five theme columns and each stage's illustration captions. */
+.ct-tags,.ct-vls{position:absolute;inset:0;pointer-events:none}
+.ct-tags>span,.ct-vl{position:absolute;left:0;top:0;opacity:0;visibility:hidden;will-change:transform}
+.ct-theme{display:flex;flex-direction:column;align-items:center;gap:4px;width:max-content;max-width:10.5em;padding:8px 11px;border-radius:12px;background:#0b1228d9;border:1px solid #ccefad59;font-size:clamp(9px,.62vw,11px);font-weight:600;line-height:1.3;letter-spacing:.12em;text-align:center;text-transform:uppercase;color:#f5f6fa;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.ct-theme i{font-style:normal;color:#ccefad;letter-spacing:.16em}
+.ct-lintel b{display:block;font-size:clamp(11px,.78vw,14px);font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:#f5f6fa;white-space:nowrap}
+.ct-vl{font-size:clamp(9.5px,.64vw,11.5px);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#c3c6ffd9;white-space:nowrap}
+.ct-score{letter-spacing:0;text-transform:none}
+.ct-tag{padding:3px 9px;border:1px solid #c3c6ff4d;border-radius:999px;font-size:clamp(8.5px,.56vw,10px);color:#c3c6ffb3}
+.ct-score b{font-size:clamp(34px,3vw,52px);font-weight:500;line-height:1;letter-spacing:-.05em;color:#f5f6fa}
+.ct-score b i{font-style:normal;font-size:.36em;letter-spacing:-.01em;color:#c3c6ffb3;margin-left:2px}
+
+/* Reading panel. */
+.ct-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(92px,11.5vh,130px);width:min(35vw,620px);display:flex;flex-direction:column;align-items:flex-start}
 .ct-kicker{display:flex;align-items:center;gap:14px;margin:0;font-size:clamp(11px,.72vw,13.5px);font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#c3c6ff}
 .ct-kicker span:first-child{color:#ccefad}
 .ct-kicker i{width:30px;height:1px;background:#c3c6ff66}
-.slide .ct-title{margin:.34em 0 .42em;max-width:none;font-size:min(4.9vw,8.4vh);line-height:.98;font-weight:500;letter-spacing:-.058em;color:#f5f6fa}
-.ct-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.slide .ct-title{margin:.3em 0 .32em;max-width:none;font-size:min(4.3vw,7.5vh);line-height:.98;font-weight:500;letter-spacing:-.058em;color:#f5f6fa}
+.ct-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em;white-space:nowrap}
 .ct-line>span{display:block;will-change:transform}
 .slide .ct-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.04em;color:#ccefad}
-.slide .ct-thesis{margin:0 0 clamp(26px,5.4vh,52px);max-width:none;font-size:clamp(15px,1.2vw,19px);line-height:1.5;color:#c3c6ffd9}
-.ct-panel{position:relative;width:100%;padding-top:20px;border-top:1px solid #c3c6ff38}
-.ct-panel:before{content:'';position:absolute;left:0;top:-1px;width:calc(var(--stage,1)/6*100%);height:1px;background:#ccefad;box-shadow:0 0 10px #ccefad;transition:width .9s cubic-bezier(.65,0,.35,1)}
-.ct-panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.slide .ct-sub{margin:0;max-width:none;font-size:clamp(15px,1.2vw,19px);line-height:1.5;color:#c3c6ffd9}
+
+.ct-panel{position:relative;display:grid;width:100%;margin-top:clamp(18px,3.4vh,34px);padding-top:16px;border-top:1px solid #c3c6ff38}
+.ct-panel>div{grid-area:1/1;min-width:0;transition:opacity .45s,visibility 0s linear .45s}
+.slide[data-view=overview] .ct-detail,.slide[data-view=overview] .ct-final,
+.slide[data-view=practice] .ct-intro,.slide[data-view=practice] .ct-final,
+.slide[data-view=pressure] .ct-intro,.slide[data-view=pressure] .ct-final,
+.slide[data-view=final] .ct-intro,.slide[data-view=final] .ct-detail{opacity:0;visibility:hidden;pointer-events:none}
+.slide[data-view] .ct-panel>div{transition:opacity .45s,visibility 0s}
+.ct-hint{display:flex;align-items:center;gap:12px;margin:0;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#c3c6ff99}
+.ct-panel kbd{display:inline-grid;place-items:center;width:24px;height:24px;border:1px solid #c3c6ff40;border-radius:7px;font:inherit;font-size:12px;letter-spacing:0;color:#f5f6fa}
+
+.ct-detail{display:grid;grid-template-areas:'head' 'name' 'practice' 'pressure';align-content:start}
+.ct-head{grid-area:head;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .ct-count{font-size:12px;font-weight:500;letter-spacing:.16em;color:#c3c6ff8c;font-variant-numeric:tabular-nums}
-.ct-count b{display:inline-block;color:#f5f6fa;font-weight:600}
-.ct-principle{display:inline-flex;align-items:center;gap:9px;font-size:clamp(9.5px,.66vw,11.5px);font-weight:600;letter-spacing:.2em;text-transform:uppercase}
-.ct-principle small{font-size:inherit;letter-spacing:inherit;color:#c3c6ff8c}
-.ct-principle i{width:7px;height:7px;border-radius:50%;background:#ccefad;box-shadow:0 0 12px #ccefad}
-.slide .ct-principle em{font-family:inherit;font-style:normal;color:#ccefad}
-.slide .ct-name{margin:0 0 12px;max-width:none;font-size:clamp(30px,2.7vw,46px);line-height:1.04;font-weight:500;letter-spacing:-.045em;color:#f5f6fa}
-.slide .ct-text{margin:0;max-width:34ch;min-height:3.1em;font-size:clamp(15px,1.12vw,18px);line-height:1.55;color:#e0e3efd9}
-.ct-hint{display:flex;align-items:center;gap:10px;margin:26px 0 0;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#c3c6ff80}
-.ct-hint kbd{display:grid;place-items:center;width:24px;height:24px;border:1px solid #c3c6ff40;border-radius:7px;font:inherit;letter-spacing:0;color:#f5f6fa}
+.ct-count b{color:#f5f6fa;font-weight:600}
+.ct-nav{display:flex;align-items:center;gap:6px}
+.slide .ct-nav button{display:inline-grid;place-items:center;min-width:32px;height:32px;padding:0;margin:0;border-radius:999px;border:1px solid #c3c6ff38;background:#0b122899;color:#f5f6fa;font:inherit;cursor:pointer;transition:border-color .3s,background-color .3s}
+.slide .ct-nav button:hover{border-color:#ccefad;background:#ccefad14;filter:none;transform:none}
+.ct-nav svg{width:15px;height:15px}
+.slide .ct-nav .ct-back{padding:0 13px;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.ct-nav button:disabled{opacity:.3;cursor:default}
+.slide .ct-name{grid-area:name;margin:0 0 12px;max-width:none;font-size:clamp(26px,2.3vw,40px);line-height:1.05;font-weight:500;letter-spacing:-.042em;color:#f5f6fa}
+.ct-practice{grid-area:practice}
+.ct-detail small{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:7px;font-size:clamp(9.5px,.64vw,11px);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#c3c6ff8c}
+.slide .ct-text{margin:0;max-width:44ch;font-size:clamp(15px,1.12vw,18px);line-height:1.5;color:#e3e6f2}
+.slide .ct-online{display:flex;align-items:center;gap:9px;margin:8px 0 0;font-size:clamp(12px,.84vw,14px);line-height:1.4;color:#ccefad}
+.ct-online i{flex:none;width:6px;height:6px;border-radius:50%;background:#ccefad;box-shadow:0 0 10px #ccefad}
+.ct-online:empty,.ct-online.is-empty{display:none}
+.ct-pressure,.ct-reveal{grid-area:pressure;align-self:start;margin-top:clamp(14px,2.2vh,20px)}
+.ct-pressure{padding-top:clamp(12px,1.9vh,18px);border-top:1px solid #c3c6ff24;transition:opacity .6s cubic-bezier(.2,.8,.2,1) .1s,transform .7s cubic-bezier(.2,.8,.2,1) .1s,visibility 0s}
+.ct-pressure small i{width:18px;height:1px;background:#c3c6ff59}
+.ct-pressure small b{color:#ccefad;font-weight:600}
+.slide .ct-q{margin:0;max-width:none;font-size:clamp(16px,1.28vw,21px);line-height:1.38;font-weight:400;letter-spacing:-.012em;color:#f5f6fa}
+.slide .ct-opp{margin:10px 0 0;max-width:none;font-size:clamp(12.5px,.88vw,14.5px);line-height:1.5;color:#c3c6ffcc}
+.ct-opp>span:first-child{margin-right:6px;font-size:.78em;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#ccefad}
+.slide .ct-reveal{display:inline-flex;align-items:center;gap:12px;justify-self:start;min-height:0;padding:0;margin-left:0;margin-right:0;margin-bottom:0;background:none;border:0;box-shadow:none;color:#c3c6ffb3;font:inherit;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:opacity .35s,color .3s,visibility 0s}
+.slide .ct-reveal:hover{color:#f5f6fa;background:none;filter:none;transform:none}
+.slide[data-view=practice] .ct-pressure{opacity:0;transform:translateY(12px);visibility:hidden;transition:opacity .25s,transform .25s,visibility 0s linear .25s}
+.slide[data-view=pressure] .ct-reveal{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility 0s linear .2s}
 
-/* Stage buttons sit under their gateways while the scene is live. */
-.ct-steps{position:absolute;inset:0;z-index:3;pointer-events:none}
-.slide .ct-step{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;max-width:none;padding:9px 10px;margin:0;background:none;border:0;border-radius:10px;box-shadow:none;color:#c3c6ff99;font:inherit;text-align:center;cursor:pointer;pointer-events:auto;will-change:transform;transition:color .45s}
-.slide .ct-step:hover{color:#e3e5ff;background:none;filter:none}
-.ct-step span{font-size:clamp(9.5px,.62vw,11px);font-weight:600;letter-spacing:.18em;transition:color .45s}
-.ct-step b{font-size:clamp(12.5px,.86vw,15px);font-weight:500;letter-spacing:-.005em;white-space:nowrap}
-.slide .ct-step[aria-pressed=true]{color:#f5f6fa}
-.ct-step[aria-pressed=true] span{color:#ccefad}
-.ct-step:after{content:'';width:4px;height:4px;margin-top:2px;border-radius:50%;background:#ccefad;opacity:0;transform:scale(.4);transition:opacity .45s,transform .45s}
-.ct-step[aria-pressed=true]:after{opacity:1;transform:none;box-shadow:0 0 10px #ccefad}
-.ct-step:focus-visible{outline:2px solid #ccefad;outline-offset:2px}
-.slide .ct-foot{position:absolute;z-index:3;left:var(--pad);bottom:clamp(80px,9.5vh,92px);margin:0;max-width:none;font-size:11px;line-height:1.4;color:#c3c6ff80}
+.slide .ct-statement{margin:0;max-width:24ch;font-size:clamp(21px,1.75vw,30px);line-height:1.28;font-weight:400;letter-spacing:-.03em;color:#f5f6fa}
+.slide .ct-statement em{font-family:Georgia,'Times New Roman',serif;font-style:italic;color:#ccefad}
+.ct-themes{display:none;margin:20px 0 0;padding:0;list-style:none;font-size:14px;line-height:1.4;color:#e3e6f2}
+.ct-themes li{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #c3c6ff1f}
+.ct-themes span{font-size:11px;font-weight:600;letter-spacing:.16em;color:#ccefad}
 
-@media(max-height:760px) and (min-width:901px){.ct-copy{top:92px}.slide .ct-thesis{margin-bottom:22px}.ct-hint{margin-top:16px}}
+.ct-rail{position:absolute;z-index:3;left:var(--pad);right:var(--pad);bottom:clamp(86px,10.4vh,104px)}
+.slide .ct-foot{position:absolute;z-index:3;left:var(--pad);bottom:clamp(60px,7vh,68px);margin:0;max-width:none;font-size:11px;line-height:1.4;color:#c3c6ff73}
 
-/* Phones, and any screen without WebGL: the scene becomes a header and the stages a grid. */
-.ct-flat .ct-steps{position:relative;inset:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;pointer-events:auto}
-.ct-flat .ct-step{position:relative;transform:none!important;opacity:1!important;visibility:visible!important;align-items:flex-start;text-align:left;padding:11px 12px;border:1px solid #c3c6ff2e;border-radius:12px;background:#0b12288c}
-.slide.ct-flat .ct-step[aria-pressed=true]{border-color:#ccefad;background:#ccefad14}
-.ct-flat .ct-step:after{display:none}
-.ct-flat .ct-step b{font-size:12.5px;white-space:normal}
-.ct-flat .ct-tags,.ct-flat .ct-hint{display:none}
-@media(min-width:901px){.ct-flat .ct-steps{position:absolute;left:var(--pad);right:auto;top:auto;bottom:clamp(120px,15vh,140px);width:min(31vw,600px)}.ct-flat .ct-foot{bottom:clamp(80px,9.5vh,92px)}}
+@media(max-height:760px) and (min-width:901px){
+ .ct-copy{top:88px}.slide .ct-title{font-size:min(4.3vw,8vh)}.ct-panel{margin-top:16px;padding-top:14px}
+ .slide .ct-name{font-size:28px;margin-bottom:10px}.slide .ct-text{font-size:15px}.slide .ct-q{font-size:17px}.slide .ct-opp{margin-top:8px;font-size:12.5px}
+ .ct-pressure,.ct-reveal{margin-top:12px}.ct-pressure{padding-top:12px}
+ .jr-name{font-size:12.5px}.jr-dot{margin-bottom:8px}
+}
+@media(max-width:1180px) and (min-width:901px){.ct-copy{width:min(38vw,560px)}.slide .ct-q{font-size:17px}}
+
+/* Phones and screens without WebGL: the scene becomes a header, labels show as a list. */
+.ct-flat .ct-tags,.ct-stage.is-fallback .ct-vls{display:none}
+.ct-flat .ct-themes{display:block}
+@media(min-width:901px){.ct-flat .ct-copy{width:min(40vw,620px)}}
 @media(max-width:900px){
  .js-ready .slide[data-semantic-id=institution].active{margin-top:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto}
  .slide[data-semantic-id=institution]{--pad:22px}
- .ct-stage{position:relative;inset:auto;height:44svh;margin-top:62px}
- .ct-film{background:linear-gradient(180deg,#0b122800 60%,#0b1228 100%)}
+ .ct-stage{position:relative;inset:auto;height:40svh;margin-top:62px}
+ .ct-film{background:linear-gradient(180deg,#0b122800 62%,#0b1228 100%)}
  .ct-fallback{right:50%;width:min(80vw,380px);transform:translate(50%,-50%)}
- .ct-copy{position:relative;left:auto;top:auto;width:auto;padding:4px var(--pad) 0}
- .slide .ct-title{font-size:min(11.5vw,52px)}
- .slide .ct-thesis{margin-bottom:24px}
- .ct-steps{margin:22px var(--pad) 0}
- .slide .ct-foot{position:relative;left:auto;bottom:auto;margin:20px var(--pad) 100px}
+ .js-ready .slide[data-semantic-id=institution].active{display:flex;flex-direction:column}
+ .slide[data-semantic-id=institution]>*{flex-shrink:0}
+ .ct-vl:not(.ct-score):not(.ct-tag){display:none}
+ .ct-copy{display:contents}
+ .ct-kicker,.slide .ct-title,.slide .ct-sub,.ct-panel{margin-left:var(--pad);margin-right:var(--pad);width:auto}
+ .ct-kicker{margin-top:4px}
+ .slide .ct-title{font-size:min(11vw,48px)}
+ .ct-rail{order:1;position:relative;left:auto;right:auto;bottom:auto;margin:24px var(--pad) 0}
+ .ct-panel{order:2;margin-top:22px}
+ .slide .ct-foot{order:3}
+ .slide .ct-foot{position:relative;left:auto;bottom:auto;margin:22px var(--pad) 100px}
+ .slide .ct-q{font-size:17px}
 }
