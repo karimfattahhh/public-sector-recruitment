@@ -1,0 +1,69 @@
+/* Slide 6: quality begins before examination day. Live card scene, foundation tabs and a six-step
+   rail that marks examination day. */
+.slide[data-semantic-id=assessment]{--pad:6vw;padding:0;background:#0b1228;color:#f5f6fa}
+.qa-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#0b1228}
+.qa-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.qa-label,.qa-day-tag{position:absolute;left:0;top:0;z-index:2;opacity:0;white-space:nowrap;pointer-events:none;will-change:transform;font-size:clamp(9.5px,.66vw,11.5px);font-weight:600;letter-spacing:.2em;text-transform:uppercase}
+.qa-label{color:#c3c6ffd9}
+.qa-day-tag{color:#ccefad;padding-bottom:8px}
+
+.qa-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(98px,13.5vh,140px);width:min(33vw,500px)}
+.qa-kicker{display:flex;align-items:center;gap:14px;margin:0;font-size:clamp(11px,.72vw,13.5px);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#c3c6ff}
+.qa-kicker span:first-child{color:#ccefad}
+.qa-kicker i{width:30px;height:1px;background:#c3c6ff66}
+.slide .qa-title{width:max-content;margin:.32em 0 .55em;max-width:none;white-space:nowrap;font-size:min(3.9vw,7vh);line-height:.98;font-weight:500;letter-spacing:-.058em;color:#f5f6fa}
+.qa-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.qa-line>span{display:block;will-change:transform}
+.slide .qa-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.04em;color:#ccefad}
+.qa-tabs{display:flex;flex-wrap:nowrap;width:max-content;gap:8px;margin:0 0 clamp(18px,3vh,28px)}
+.slide .qa-tab{display:inline-flex;align-items:center;gap:9px;min-width:0;max-width:none;margin:0;padding:9px 15px;border:1px solid #c3c6ff3d;border-radius:999px;background:#ffffff08;box-shadow:none;color:#c3c6ffd9;font:inherit;font-size:clamp(12px,.86vw,14.5px);white-space:nowrap;font-weight:500;cursor:pointer;transition:background-color .35s,color .35s,border-color .35s}
+.slide .qa-tab:hover{background:#ffffff14;filter:none;transform:none}
+.qa-tab span{font-size:10px;font-weight:600;letter-spacing:.14em;color:#ccefad;transition:color .35s}
+.slide .qa-tab[aria-pressed=true]{background:#ccefad;border-color:#ccefad;color:#10162b}
+.qa-tab[aria-pressed=true] span{color:#3445eb}
+.qa-tab:focus-visible{outline:2px solid #ccefad;outline-offset:3px}
+.slide .qa-detail .qa-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0 0 10px;max-width:none;white-space:nowrap;font-size:clamp(10px,.66vw,11.5px);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#c3c6ff99}
+.qa-meta b{color:#f5f6fa;font-weight:600}
+.qa-name{color:#ccefad}
+.slide .qa-detail h3{margin:0 0 10px;max-width:none;font-size:clamp(24px,2.1vw,34px);line-height:1.1;font-weight:500;letter-spacing:-.035em;color:#f5f6fa}
+.slide .qa-detail p{margin:0;max-width:40ch;font-size:clamp(14.5px,1.08vw,17px);line-height:1.55;color:#e0e3efd9}
+.qa-detail small{display:block;margin-top:12px;font-size:11px;letter-spacing:.06em;color:#c3c6ff99}
+
+.qa-rail{position:absolute;z-index:3;left:var(--pad);right:var(--pad);bottom:clamp(100px,12.5vh,120px);padding-top:30px}
+.qa-stations{position:relative;display:grid;grid-template-columns:repeat(6,1fr);margin:0;padding:0;list-style:none}
+.qa-stations:before{content:'';position:absolute;left:0;right:0;top:9px;height:1px;background:linear-gradient(90deg,#c3c6ff59,#c3c6ff26)}
+.slide .qa-station{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0;max-width:none;margin:0;padding:0;background:none;border:0;border-radius:0;box-shadow:none;color:#c3c6ffa6;font:inherit;text-align:left;cursor:pointer}
+.slide .qa-station:hover{background:none;filter:none;transform:none;color:#f5f6fa}
+.qa-station i{position:relative;z-index:1;width:19px;height:19px;border-radius:50%;border:1px solid #c3c6ff66;background:#0b1228;transition:background-color .4s,border-color .4s,box-shadow .4s}
+.qa-station span{font-size:10px;font-weight:600;letter-spacing:.18em;color:#c3c6ff80}
+.qa-station b{font-size:clamp(13px,1vw,16px);font-weight:500;color:inherit}
+.qa-station.is-done i{background:#c3c6ff;border-color:#c3c6ff}
+.qa-station.is-current{color:#f5f6fa}
+.qa-station.is-current i{background:#ccefad;border-color:#ccefad;box-shadow:0 0 0 5px #ccefad24,0 0 16px #ccefad}
+.qa-station.is-current span{color:#ccefad}
+.qa-station:focus-visible{outline:2px solid #ccefad;outline-offset:4px}
+.qa-before{position:absolute;left:0;top:0;width:calc(400% / 6 - 22px);padding-top:8px;border-top:1px solid #ccefad80;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#ccefad}
+.qa-before:before,.qa-before:after{content:'';position:absolute;top:-4px;width:1px;height:8px;background:#ccefad80}
+.qa-before:before{left:0}.qa-before:after{right:0}
+.qa-day{position:absolute;left:calc(400% / 6 - 11px);top:-6px;bottom:-4px;padding-left:10px;border-left:1px dashed #ccefadb3;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#ccefad;white-space:nowrap}
+.slide .qa-foot{position:absolute;z-index:3;left:var(--pad);bottom:clamp(74px,8.6vh,82px);margin:0;max-width:none;font-size:11px;color:#c3c6ff99}
+
+@media(max-aspect-ratio:29/20) and (min-width:901px){.qa-tabs{flex-wrap:wrap;width:auto}}
+@media(max-height:760px) and (min-width:901px){.qa-copy{top:90px}.slide .qa-title{margin-bottom:.4em}.qa-tabs{margin-bottom:14px}.slide .qa-detail p{font-size:14px}.qa-detail small{margin-top:8px}}
+
+/* Phones and screens without WebGL: text, tabs and the rail only. */
+.qa-flat .qa-canvas,.qa-flat .qa-label,.qa-flat .qa-day-tag{display:none}
+@media(max-width:900px){
+ .js-ready .slide[data-semantic-id=assessment].active{margin-top:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto}
+ .slide[data-semantic-id=assessment]{--pad:22px}
+ .qa-stage{position:fixed}
+ .qa-copy,.qa-rail,.slide .qa-foot{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:auto}
+ .qa-copy{padding:92px var(--pad) 0}
+ .slide .qa-title{width:auto;white-space:normal;font-size:min(10.5vw,46px)}
+ .qa-rail{margin:34px var(--pad) 0;padding-top:0}
+ .qa-before,.qa-day{display:none}
+ .qa-tabs{flex-wrap:wrap;width:auto}
+ .qa-stations{grid-template-columns:repeat(3,1fr);row-gap:18px}
+ .qa-stations:before{display:none}
+ .slide .qa-foot{margin:22px var(--pad) 100px}
+}

@@ -1,0 +1,75 @@
+/* Slide 2: the recruitment continuum. Full-bleed live colonnade, editorial reading panel and
+   stage labels that follow their gateways. */
+.slide[data-semantic-id=institution]{--pad:6vw;padding:0;background:#0b1228;color:#f5f6fa}
+.ct-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#0b1228}
+.ct-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ct-fallback{display:none;position:absolute;right:7vw;top:50%;width:min(44vw,620px);transform:translateY(-46%)}
+.ct-stage.is-fallback .ct-canvas{display:none}
+.ct-stage.is-fallback .ct-fallback{display:block}
+.ct-film{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0b1228eb 0%,#0b1228b8 24%,#0b122833 38%,#0b122800 50%),linear-gradient(180deg,#0b12288c 0%,#0b122800 15%,#0b122800 80%,#0b1228b3 100%)}
+.ct-tags{position:absolute;inset:0;pointer-events:none}
+.ct-tags>span{position:absolute;left:0;top:0;opacity:0;will-change:transform}
+.ct-pillar{padding:6px 11px;border-radius:999px;background:#0b1228c7;border:1px solid #c3c6ff38;font-size:clamp(9px,.62vw,11px);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#c3c6ffd9;white-space:nowrap;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:color .5s,background-color .5s,border-color .5s,box-shadow .5s}
+.ct-pillar.is-on{color:#10162b;background:#ccefad;border-color:#ccefad;box-shadow:0 0 28px #ccefad73}
+.ct-lintel{display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;white-space:nowrap}
+.ct-lintel b{font-size:clamp(11px,.78vw,14px);font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#f5f6fa}
+.ct-lintel small{font-size:clamp(9px,.62vw,11px);font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#c3c6ff99}
+
+.ct-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(100px,14.5vh,150px);width:min(31vw,600px);display:flex;flex-direction:column;align-items:flex-start}
+.ct-kicker{display:flex;align-items:center;gap:14px;margin:0;font-size:clamp(11px,.72vw,13.5px);font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#c3c6ff}
+.ct-kicker span:first-child{color:#ccefad}
+.ct-kicker i{width:30px;height:1px;background:#c3c6ff66}
+.slide .ct-title{margin:.34em 0 .42em;max-width:none;font-size:min(4.9vw,8.4vh);line-height:.98;font-weight:500;letter-spacing:-.058em;color:#f5f6fa}
+.ct-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.ct-line>span{display:block;will-change:transform}
+.slide .ct-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.04em;color:#ccefad}
+.slide .ct-thesis{margin:0 0 clamp(26px,5.4vh,52px);max-width:none;font-size:clamp(15px,1.2vw,19px);line-height:1.5;color:#c3c6ffd9}
+.ct-panel{position:relative;width:100%;padding-top:20px;border-top:1px solid #c3c6ff38}
+.ct-panel:before{content:'';position:absolute;left:0;top:-1px;width:calc(var(--stage,1)/6*100%);height:1px;background:#ccefad;box-shadow:0 0 10px #ccefad;transition:width .9s cubic-bezier(.65,0,.35,1)}
+.ct-panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.ct-count{font-size:12px;font-weight:500;letter-spacing:.16em;color:#c3c6ff8c;font-variant-numeric:tabular-nums}
+.ct-count b{display:inline-block;color:#f5f6fa;font-weight:600}
+.ct-principle{display:inline-flex;align-items:center;gap:9px;font-size:clamp(9.5px,.66vw,11.5px);font-weight:600;letter-spacing:.2em;text-transform:uppercase}
+.ct-principle small{font-size:inherit;letter-spacing:inherit;color:#c3c6ff8c}
+.ct-principle i{width:7px;height:7px;border-radius:50%;background:#ccefad;box-shadow:0 0 12px #ccefad}
+.slide .ct-principle em{font-family:inherit;font-style:normal;color:#ccefad}
+.slide .ct-name{margin:0 0 12px;max-width:none;font-size:clamp(30px,2.7vw,46px);line-height:1.04;font-weight:500;letter-spacing:-.045em;color:#f5f6fa}
+.slide .ct-text{margin:0;max-width:34ch;min-height:3.1em;font-size:clamp(15px,1.12vw,18px);line-height:1.55;color:#e0e3efd9}
+.ct-hint{display:flex;align-items:center;gap:10px;margin:26px 0 0;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#c3c6ff80}
+.ct-hint kbd{display:grid;place-items:center;width:24px;height:24px;border:1px solid #c3c6ff40;border-radius:7px;font:inherit;letter-spacing:0;color:#f5f6fa}
+
+/* Stage buttons sit under their gateways while the scene is live. */
+.ct-steps{position:absolute;inset:0;z-index:3;pointer-events:none}
+.slide .ct-step{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;max-width:none;padding:9px 10px;margin:0;background:none;border:0;border-radius:10px;box-shadow:none;color:#c3c6ff99;font:inherit;text-align:center;cursor:pointer;pointer-events:auto;will-change:transform;transition:color .45s}
+.slide .ct-step:hover{color:#e3e5ff;background:none;filter:none}
+.ct-step span{font-size:clamp(9.5px,.62vw,11px);font-weight:600;letter-spacing:.18em;transition:color .45s}
+.ct-step b{font-size:clamp(12.5px,.86vw,15px);font-weight:500;letter-spacing:-.005em;white-space:nowrap}
+.slide .ct-step[aria-pressed=true]{color:#f5f6fa}
+.ct-step[aria-pressed=true] span{color:#ccefad}
+.ct-step:after{content:'';width:4px;height:4px;margin-top:2px;border-radius:50%;background:#ccefad;opacity:0;transform:scale(.4);transition:opacity .45s,transform .45s}
+.ct-step[aria-pressed=true]:after{opacity:1;transform:none;box-shadow:0 0 10px #ccefad}
+.ct-step:focus-visible{outline:2px solid #ccefad;outline-offset:2px}
+.slide .ct-foot{position:absolute;z-index:3;left:var(--pad);bottom:clamp(80px,9.5vh,92px);margin:0;max-width:none;font-size:11px;line-height:1.4;color:#c3c6ff80}
+
+@media(max-height:760px) and (min-width:901px){.ct-copy{top:92px}.slide .ct-thesis{margin-bottom:22px}.ct-hint{margin-top:16px}}
+
+/* Phones, and any screen without WebGL: the scene becomes a header and the stages a grid. */
+.ct-flat .ct-steps{position:relative;inset:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;pointer-events:auto}
+.ct-flat .ct-step{position:relative;transform:none!important;opacity:1!important;visibility:visible!important;align-items:flex-start;text-align:left;padding:11px 12px;border:1px solid #c3c6ff2e;border-radius:12px;background:#0b12288c}
+.slide.ct-flat .ct-step[aria-pressed=true]{border-color:#ccefad;background:#ccefad14}
+.ct-flat .ct-step:after{display:none}
+.ct-flat .ct-step b{font-size:12.5px;white-space:normal}
+.ct-flat .ct-tags,.ct-flat .ct-hint{display:none}
+@media(min-width:901px){.ct-flat .ct-steps{position:absolute;left:var(--pad);right:auto;top:auto;bottom:clamp(120px,15vh,140px);width:min(31vw,600px)}.ct-flat .ct-foot{bottom:clamp(80px,9.5vh,92px)}}
+@media(max-width:900px){
+ .js-ready .slide[data-semantic-id=institution].active{margin-top:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto}
+ .slide[data-semantic-id=institution]{--pad:22px}
+ .ct-stage{position:relative;inset:auto;height:44svh;margin-top:62px}
+ .ct-film{background:linear-gradient(180deg,#0b122800 60%,#0b1228 100%)}
+ .ct-fallback{right:50%;width:min(80vw,380px);transform:translate(50%,-50%)}
+ .ct-copy{position:relative;left:auto;top:auto;width:auto;padding:4px var(--pad) 0}
+ .slide .ct-title{font-size:min(11.5vw,52px)}
+ .slide .ct-thesis{margin-bottom:24px}
+ .ct-steps{margin:22px var(--pad) 0}
+ .slide .ct-foot{position:relative;left:auto;bottom:auto;margin:20px var(--pad) 100px}
+}

@@ -1,0 +1,98 @@
+/* Slide 11: a controlled first step. Live staircase of five gated phases beside the phase detail,
+   with the decision close below. */
+.slide[data-semantic-id=pilot]{--pad:6vw;padding:0;background:#2b39d0;color:#fff}
+.pl-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#2b39d0}
+.pl-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.pl-steps{position:absolute;inset:0;z-index:2;pointer-events:none}
+.slide .pl-step{position:absolute;left:0;top:0;display:inline-flex;align-items:center;gap:7px;min-width:0;max-width:none;margin:0;padding:5px 12px 5px 10px;border:1px solid #ffffff38;border-radius:999px;background:#1a2499d9;box-shadow:none;color:#e6e8ff;font:inherit;font-size:12px;font-weight:500;white-space:nowrap;cursor:pointer;opacity:0;pointer-events:auto;will-change:transform,opacity;transition:background-color .35s,color .35s,border-color .35s}
+.slide .pl-step:hover{background:#2330b8;filter:none;color:#fff}
+.pl-step b{font-size:10px;font-weight:600;letter-spacing:.14em;color:#c3c6ff;transition:color .35s}
+.slide .pl-step[aria-pressed=true]{background:#ccefad;border-color:#ccefad;color:#10162b}
+.pl-step[aria-pressed=true] b{color:#3445eb}
+.pl-step:focus-visible{outline:2px solid #ccefad;outline-offset:3px}
+.pl-tag{position:absolute;left:0;top:0;z-index:2;opacity:0;padding:5px 11px;border-radius:999px;pointer-events:none;white-space:nowrap;will-change:transform,opacity;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.pl-start{background:#ccefad;color:#10162b;box-shadow:0 8px 22px -10px #0b1228}
+.pl-broad{border:1px dashed #ffffff73;background:#1a249973;color:#e6e8ff}
+
+.pl-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(98px,13.5vh,140px);width:min(36vw,520px)}
+.pl-kicker{display:flex;align-items:center;gap:14px;margin:0;white-space:nowrap;font-size:clamp(11px,.72vw,13.5px);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#dfe2ff}
+.pl-kicker span:first-child{color:#ccefad}
+.pl-kicker i{width:30px;height:1px;background:#ffffff66}
+.slide .pl-title{width:max-content;max-width:none;margin:.32em 0 0;white-space:nowrap;font-size:min(3.7vw,6.6vh);line-height:.98;font-weight:500;letter-spacing:-.055em;color:#fff}
+.pl-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.pl-line>span{display:block;will-change:transform}
+.slide .pl-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.035em;color:#ccefad}
+.pl-detail{display:grid;grid-template-columns:auto 1fr;align-items:start;gap:clamp(14px,1.6vw,24px);margin-top:clamp(22px,3.8vh,38px)}
+.pl-num{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:clamp(56px,5.2vw,90px);line-height:.82;letter-spacing:-.04em;color:#ccefad}
+.slide .pl-meta{max-width:none;margin:0 0 8px;font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#c9ccff}
+.pl-meta b{font-weight:600;color:#fff}
+.pl-name{color:#ccefad}
+.slide .pl-detail h3{max-width:none;margin:0 0 8px;font-size:clamp(22px,1.95vw,32px);line-height:1.12;font-weight:500;letter-spacing:-.035em;color:#fff}
+.slide .pl-detail .pl-text{max-width:40ch;margin:0;font-size:clamp(14px,1.04vw,16.5px);line-height:1.5;color:#e6e8ffe0}
+.pl-detail small{display:block;margin-top:12px;font-size:11.5px;line-height:1.45;color:#e6e8ff}
+.pl-detail small i{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:#ccefad;box-shadow:0 0 10px #ccefad;vertical-align:1px}
+
+.pl-decision{position:absolute;z-index:3;left:var(--pad);bottom:clamp(116px,13.6vh,134px);width:min(40vw,600px);padding-top:clamp(14px,2vh,20px);border-top:1px solid #ffffff38}
+.pl-decision>span{display:block;font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#ccefad}
+.slide .pl-decision h3{max-width:none;margin:8px 0 14px;font-size:clamp(22px,2vw,34px);line-height:1.12;font-weight:500;letter-spacing:-.035em;color:#fff}
+.slide .pl-reveal{display:inline-flex;align-items:center;gap:14px;min-width:0;max-width:none;margin:0;padding:6px 6px 6px 18px;border:0;border-radius:999px;background:#fff;box-shadow:0 14px 30px -18px #0b1228;color:#2b39d0;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background-color .3s,transform .3s}
+.slide .pl-reveal:hover{background:#ccefad;filter:none;transform:translateY(-1px)}
+.pl-reveal b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#2b39d0;color:#fff;transition:transform .4s}
+.pl-reveal svg{width:15px;height:15px}
+.pl-reveal[aria-expanded=true] b{transform:rotate(90deg)}
+.pl-reveal:focus-visible{outline:2px solid #ccefad;outline-offset:3px}
+.pl-ended .pl-copy,.pl-ended .pl-decision{opacity:0;pointer-events:none}
+
+/* The finale's end card. */
+.pl-end{position:absolute;z-index:3;left:var(--pad);top:clamp(104px,15vh,150px);bottom:clamp(112px,13.4vh,132px);width:min(46vw,680px);display:flex;flex-direction:column;justify-content:space-between;opacity:0;pointer-events:none}
+.pl-ended .pl-end{opacity:1;pointer-events:auto}
+.pl-end-kicker{display:flex;align-items:center;gap:14px;margin:0;white-space:nowrap;font-size:clamp(11px,.72vw,13.5px);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#dfe2ff}
+.pl-end-kicker span:first-child{color:#ccefad}
+.pl-end-kicker i{width:30px;height:1px;background:#ffffff66}
+.slide .pl-end-title{width:max-content;max-width:none;margin:.38em 0 0;white-space:nowrap;font-size:min(3.6vw,6.4vh);line-height:1;font-weight:500;letter-spacing:-.05em;color:#fff}
+.pl-eline{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.pl-eline>span{display:block;will-change:transform}
+.slide .pl-end-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.035em;color:#ccefad}
+.pl-end-action{max-width:46ch;margin-top:clamp(20px,3.4vh,36px);padding-left:16px;border-left:2px solid #ccefad}
+.pl-end-action span{display:block;margin-bottom:6px;font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#ccefad}
+.slide .pl-end-action p{max-width:none;margin:0;font-size:clamp(15px,1.15vw,19px);line-height:1.5;color:#fff}
+.pl-sign{display:flex;align-items:center;flex-wrap:wrap;gap:clamp(16px,1.8vw,28px)}
+.pl-sign>em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:clamp(34px,3.2vw,56px);line-height:1;letter-spacing:-.03em;color:#ccefad}
+.pl-sign>div{padding-left:clamp(16px,1.8vw,28px);border-left:1px solid #ffffff4d}
+.pl-lock{display:flex;align-items:center;gap:9px;white-space:nowrap;font-size:clamp(12px,.86vw,14px);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.pl-lock i{font-style:normal;color:#ccefad}
+.pl-mark{flex:none;width:20px;height:20px;color:#fff}
+.pl-sign small{display:block;margin-top:6px;font-size:11px;letter-spacing:.08em;color:#dfe2ffb3}
+.slide .pl-back{min-width:0;max-width:none;margin:0 0 0 auto;padding:4px 0;border:0;background:none;box-shadow:none;color:#dfe2ffb3;font:inherit;font-size:11.5px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.slide .pl-back:hover{background:none;filter:none;transform:none;color:#fff}
+.pl-back:focus-visible{outline:2px solid #ccefad;outline-offset:3px}
+body.pl-ending header>span,body.pl-ending header>div,body.pl-ending #slide-label{opacity:0;pointer-events:none;transition:opacity .6s}
+.slide .pl-foot{position:absolute;z-index:3;left:var(--pad);bottom:clamp(74px,8.6vh,82px);max-width:none;margin:0;font-size:11px;color:#dfe2ffb3}
+
+@media(max-aspect-ratio:29/20) and (min-width:901px){.pl-decision{width:min(37vw,600px)}}
+@media(max-height:760px) and (min-width:901px){.pl-copy{top:90px}.pl-detail{margin-top:16px}.pl-num{font-size:56px}.slide .pl-detail h3{font-size:22px}.slide .pl-detail .pl-text{font-size:13.5px}.pl-detail small{margin-top:8px}.slide .pl-decision h3{font-size:22px;margin:6px 0 10px}.pl-decision{bottom:100px}.pl-end{top:96px;bottom:100px}.pl-end-action{margin-top:16px}.slide .pl-end-action p{font-size:15px}}
+
+/* Screens without WebGL: the phases as a plain row of buttons. */
+.pl-flat .pl-canvas,.pl-flat .pl-tag{display:none}
+.pl-flat .pl-steps{position:absolute;inset:auto var(--pad) auto 52%;top:clamp(98px,13.5vh,140px);display:flex;flex-wrap:wrap;gap:8px}
+.slide.pl-flat .pl-step{position:static;opacity:1;transform:none!important}
+
+@media(max-width:900px){
+ .js-ready .slide[data-semantic-id=pilot].active{display:flex;flex-direction:column;margin-top:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto}
+ .slide[data-semantic-id=pilot]{--pad:22px}
+ .pl-copy{display:contents}
+ .pl-kicker{order:1;padding:92px var(--pad) 0}
+ .slide .pl-title{order:2;width:auto;margin:.3em var(--pad) 0;white-space:normal;font-size:min(9.6vw,42px)}
+ .pl-stage{order:3;position:relative;inset:auto;flex:none;height:min(96vw,440px);margin:6px 0}
+ .pl-detail{order:4;margin:6px var(--pad) 0}
+ .pl-decision{order:5;position:relative;left:auto;bottom:auto;width:auto;margin:30px var(--pad) 0}
+ .pl-end{order:6;position:relative;left:auto;top:auto;bottom:auto;width:auto;display:none;margin:18px var(--pad) 0;gap:28px}
+ .pl-ended .pl-end{display:flex}
+ .pl-ended .pl-detail,.pl-ended .pl-decision{display:none}
+ .slide .pl-end-title{width:auto;white-space:normal;font-size:min(9vw,40px)}
+ .slide .pl-foot{order:7;position:relative;left:auto;bottom:auto;margin:16px var(--pad) 100px}
+ .slide .pl-step{padding:3px 9px 3px 7px;font-size:10.5px}.pl-step b{font-size:9px}
+ .pl-tag{padding:4px 9px;font-size:9px;letter-spacing:.1em}
+ .pl-flat .pl-stage{height:auto}
+ .pl-flat .pl-steps{position:static;margin:0 var(--pad)}
+}

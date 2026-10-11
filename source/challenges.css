@@ -1,0 +1,72 @@
+/* Slide 3: five challenges resolve into five opportunities, drawn live in ink on paper. */
+.slide[data-semantic-id=challenges]{--pad:6vw;--art:clamp(130px,24vh,300px);padding:0;background:#f5f6fa;color:#10162b}
+.cx-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#f5f6fa}
+.cx-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.cx-head{position:absolute;z-index:2;left:var(--pad);top:clamp(100px,14vh,140px)}
+.cx-kicker{display:flex;align-items:center;gap:14px;margin:0;font-size:clamp(11px,.72vw,13.5px);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#3445eb}
+.cx-kicker i{width:30px;height:1px;background:#3445eb66}
+.cx-kicker span:last-child{color:#10162b}
+.slide .cx-title{margin:.32em 0 0;max-width:none;font-size:min(5.5vw,9.4vh);line-height:.98;font-weight:500;letter-spacing:-.058em;color:#10162b}
+.cx-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.cx-line>span{display:block;will-change:transform}
+.slide .cx-title em{position:relative;z-index:0;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.04em;color:#3445eb}
+.cx-title em:after{content:'';position:absolute;z-index:-1;left:-.04em;right:.02em;bottom:.08em;height:.3em;background:#ccefad;transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(.65,0,.35,1)}
+.cx-all-open .cx-title em:after{transform:none}
+
+.cx-ask{position:absolute;z-index:2;right:var(--pad);top:clamp(150px,21vh,196px);width:min(29vw,420px)}
+.slide .cx-ask p{margin:0 0 18px;max-width:none;font-size:clamp(19px,1.6vw,27px);line-height:1.28;letter-spacing:-.022em;color:#10162b}
+.cx-tools{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.cx-count{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#686d80;font-variant-numeric:tabular-nums}
+.cx-count b{color:#3445eb}
+.slide .cx-all{min-width:0;max-width:none;margin:0;padding:9px 16px;border:1px solid #10162b2e;border-radius:999px;background:#ffffffb3;box-shadow:none;color:#10162b;font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;transition:background .3s,border-color .3s,color .3s}
+.slide .cx-all:hover{background:#fff;border-color:#3445eb80;color:#3445eb;filter:none;transform:none}
+.slide .cx-all[aria-pressed=true]{background:#10162b;border-color:#10162b;color:#f5f6fa}
+
+.cx-grid{position:absolute;z-index:2;left:var(--pad);right:var(--pad);bottom:clamp(104px,13vh,124px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(16px,1.8vw,30px)}
+.cx-card{position:relative;display:flex;flex-direction:column;min-width:0;cursor:pointer}
+.cx-art{height:var(--art);margin-bottom:12px;display:grid;place-items:center}
+.cx-icon{display:none;width:56px;height:56px;color:#3445eb}
+.cx-meta{position:relative;display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid #10162b24}
+.cx-meta:before{content:'';position:absolute;left:0;top:-1px;width:100%;height:2px;background:#3445eb;transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.65,0,.35,1)}
+.cx-card.is-open .cx-meta:before{transform:none}
+.cx-index{font-size:12px;font-weight:600;letter-spacing:.14em;color:#3445eb;font-variant-numeric:tabular-nums}
+.cx-state{position:relative;height:14px;overflow:hidden;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;text-align:right}
+.cx-state b{display:block;line-height:14px;transition:transform .6s cubic-bezier(.65,0,.35,1)}
+.cx-state b:first-child{color:#686d80}
+.cx-state b:last-child{color:#3445eb}
+.cx-card.is-open .cx-state b{transform:translateY(-100%)}
+.slide .cx-name{margin:12px 0 0;max-width:none;font-size:clamp(17px,1.42vw,23px);line-height:1.15;font-weight:500;letter-spacing:-.025em;color:#10162b}
+.slide .cx-opp{margin:10px 0 0;min-height:2.9em;max-width:none;font-size:clamp(13.5px,1vw,16px);line-height:1.45;color:#3445eb;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s}
+.cx-card.is-open .cx-opp{opacity:1;transform:none;transition:opacity .7s .45s,transform .7s .45s}
+.slide .cx-toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;max-width:none;margin:auto 0 0;padding-top:12px!important;padding:0;background:none;border:0;border-radius:0;box-shadow:none;color:#686d80;font:inherit;font-size:12px;font-weight:500;text-align:left;cursor:pointer;transition:color .3s}
+.slide .cx-toggle:hover{background:none;filter:none;transform:none}
+.cx-toggle i{position:relative;flex:none;width:24px;height:24px;border:1px solid currentColor;border-radius:50%;transition:background-color .4s,border-color .4s,color .4s}
+.cx-toggle i:before,.cx-toggle i:after{content:'';position:absolute;left:50%;top:50%;width:9px;height:1.5px;background:currentColor;transform:translate(-50%,-50%)}
+.cx-toggle i:after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .5s}
+.cx-card:hover .cx-toggle,.cx-toggle:focus-visible{color:#3445eb}
+.cx-card.is-open .cx-toggle{color:#3445eb}
+.cx-card.is-open .cx-toggle i{background:#3445eb;border-color:#3445eb;color:#fff}
+.cx-card.is-open .cx-toggle i:after{transform:translate(-50%,-50%) rotate(0deg)}
+.cx-toggle:focus-visible{outline:2px solid #3445eb;outline-offset:4px}
+.slide .cx-foot{position:absolute;z-index:2;left:var(--pad);bottom:clamp(74px,8.8vh,84px);margin:0;max-width:none;font-size:11px;color:#686d80}
+
+@media(max-height:760px) and (min-width:901px){.slide[data-semantic-id=challenges]{--art:clamp(110px,19vh,160px)}.cx-head{top:90px}.cx-ask{top:118px}.slide .cx-opp{min-height:2.6em}}
+@media(max-width:1180px) and (min-width:901px){.cx-grid{gap:14px}.slide .cx-name{font-size:16px}.cx-toggle span{font-size:11px}}
+
+/* Without WebGL: simple line icons stand in for the live drawings. */
+.cx-flat .cx-canvas{display:none}
+.cx-flat .cx-icon{display:block}
+
+@media(max-width:900px){
+ .js-ready .slide[data-semantic-id=challenges].active{padding:0;overflow-x:hidden;overflow-y:auto}
+ .slide[data-semantic-id=challenges]{--pad:22px;--art:130px}
+ .cx-stage{position:fixed;inset:0}
+ .cx-head,.cx-ask,.cx-grid,.slide .cx-foot{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:auto}
+ .cx-head{padding:28px var(--pad) 0}
+ .slide .cx-title{font-size:min(11vw,48px)}
+ .cx-ask{padding:18px var(--pad) 0}
+ .slide .cx-ask p{font-size:19px}
+ .cx-grid{grid-template-columns:1fr 1fr;gap:26px 18px;padding:28px var(--pad) 0}
+ .slide .cx-foot{margin:26px var(--pad) 40px}
+}

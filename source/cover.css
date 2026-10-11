@@ -1,0 +1,79 @@
+/* Opening: full-bleed live scene, editorial cover typography and a chrome that recedes on the cover. */
+.slide[data-semantic-id=opening]{--pad:6vw;padding:0;background:#0b1228;color:#f5f6fa}
+.cover-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#0b1228}
+.cover-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cover-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:100% 50%;display:none}
+.cover-stage.is-fallback .cover-canvas{display:none}
+.cover-stage.is-fallback .cover-fallback{display:block}
+.cover-film{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0b1228eb 0%,#0b1228b8 25%,#0b122845 45%,#0b122800 61%),linear-gradient(180deg,#0b1228a6 0%,#0b122800 17%,#0b122800 76%,#0b1228c4 100%)}
+.cover-grain{position:absolute;inset:-80px;pointer-events:none;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:cover-grain 1s steps(6) infinite}
+@keyframes cover-grain{0%,100%{transform:translate(0,0)}17%{transform:translate(-22px,14px)}33%{transform:translate(16px,-24px)}50%{transform:translate(-12px,-10px)}67%{transform:translate(24px,18px)}83%{transform:translate(-6px,26px)}}
+.no-motion .cover-grain{animation:none}
+@media(prefers-reduced-motion:reduce){.cover-grain{animation:none}}
+
+.cover-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(98px,15vh,156px);width:min(50vw,780px);display:flex;flex-direction:column;align-items:flex-start}
+.cover-kicker{display:flex;align-items:center;gap:15px;margin:0;font-size:clamp(11px,.72vw,13.5px);font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#c3c6ff}
+.cover-kicker i{width:38px;height:1px;background:#ccefad;box-shadow:0 0 12px #ccefad99}
+.cover-title{margin:.36em 0 .5em;font-size:min(7vw,12.1vh);line-height:.98;font-weight:500;letter-spacing:-.062em;color:#f5f6fa;font-feature-settings:'ss01','cv11'}
+.cover-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.cover-line>span{display:block;will-change:transform}
+.cover-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.04em;color:#ccefad}
+
+.cover-shift{position:relative;display:grid;justify-items:start;gap:2px;margin:0 0 clamp(26px,4.6vh,46px);padding-left:30px;--shift:1}
+.cover-shift-track{position:absolute;left:5px;top:21px;bottom:21px;width:1px;background:#c3c6ff38}
+.cover-shift-track b{position:absolute;left:0;top:0;width:1px;height:calc(var(--shift)*100%);background:linear-gradient(#c3c6ff,#ccefad);box-shadow:0 0 10px #ccefadaa}
+.slide .cover-state{position:relative;display:flex;align-items:baseline;gap:16px;min-height:0;padding:7px 4px 7px 0;margin:0;background:none;border:0;border-radius:0;box-shadow:none;color:#c3c6ff8f;font:inherit;font-size:clamp(17px,1.5vw,24px);font-weight:400;line-height:1.3;letter-spacing:-.012em;text-align:left;cursor:pointer;transition:color .6s}
+.slide .cover-state:hover{color:#e3e5ff;filter:none;background:none;transform:none}
+.slide .cover-state[aria-pressed=true]{color:#f5f6fa}
+.cover-state small{flex:none;width:30px;font-size:clamp(10px,.6vw,11.5px);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#c3c6ff8f;transition:color .6s}
+.cover-state i{position:absolute;left:-30px;top:50%;width:11px;height:11px;margin-top:-5.5px;border-radius:50%;border:1px solid #c3c6ff80;background:#0b1228;transition:background .5s,border-color .5s,box-shadow .5s}
+.cover-state[aria-pressed=true] i{background:#ccefad;border-color:#ccefad;box-shadow:0 0 0 5px #ccefad1c,0 0 18px #ccefad}
+.cover-state[aria-pressed=true] small{color:#ccefad}
+.cover-state:focus-visible{outline:2px solid #ccefad;outline-offset:4px}
+
+.slide .cover-begin{display:inline-flex;align-items:center;gap:20px;min-height:0;padding:7px 7px 7px 24px;margin:0;border-radius:999px;background:#f5f6fa0f;border:1px solid #f5f6fa30;box-shadow:inset 0 1px #ffffff1f;color:#f5f6fa;font:inherit;font-size:clamp(13.5px,.86vw,16px);font-weight:500;letter-spacing:.005em;cursor:pointer;-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);transition:background .35s,border-color .35s,transform .35s}
+.cover-begin b{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#ccefad;color:#10162b;transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}
+.cover-begin svg{width:18px;height:18px}
+.slide .cover-begin:hover{background:#f5f6fa1c;border-color:#f5f6fa5c;filter:none;transform:translateY(-2px)}
+.cover-begin:hover b{transform:translateX(4px);box-shadow:0 0 24px #ccefad80}
+
+
+.cover-meta{position:absolute;z-index:3;left:var(--pad);bottom:clamp(24px,3.8vh,36px);margin:0;display:flex;gap:clamp(30px,3.6vw,60px);padding-top:16px;--rule:1}
+.cover-meta:before{content:'';position:absolute;left:0;top:0;width:calc(var(--rule)*100%);height:1px;background:linear-gradient(90deg,#c3c6ff66,#c3c6ff14)}
+.cover-meta dt{margin:0 0 7px;font-size:clamp(9.5px,.6vw,11px);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#c3c6ff99}
+.cover-meta dd{margin:0;font-size:clamp(12.5px,.8vw,15px);line-height:1.4;color:#f5f6fadb;white-space:nowrap}
+
+/* On dark scene slides the chrome turns transparent; on the cover only the ELMY mark remains. */
+header,footer,header>div,header button,.footer-navigation,#slide-label,.brand svg,.progress,.progress i{transition:background-color .6s,color .6s,border-color .6s,opacity .6s,box-shadow .6s}
+body.scene-dark header{background:transparent;border-bottom-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:#f5f6fa}
+body.scene-dark header i{color:#c3c6ff}
+body.scene-dark .brand,body.scene-dark .brand svg{color:#f5f6fa}
+body.scene-dark header>div{background:#f5f6fa0b;border:1px solid #f5f6fa1f;box-shadow:none}
+body.scene-dark header button{color:#f5f6fa}
+body.scene-dark header button:hover{background:#f5f6fa17}
+body.scene-dark header button#motion[aria-pressed=true]{background:#f5f6fa12}
+body.scene-dark footer{background:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:#f5f6fa;pointer-events:none}
+body.scene-dark footer .footer-navigation{pointer-events:auto;background:#f5f6fa0b;border-color:#f5f6fa1f;box-shadow:none}
+body.scene-dark #slide-label{color:#c3c6ff99}
+body.scene-dark .progress{background:#f5f6fa14}
+body.scene-dark .progress i{background:#ccefad}
+header>span,header>div{transition:opacity .6s,visibility .6s}
+body.on-cover header>span,body.on-cover header>div,body.on-cover #slide-label{opacity:0;visibility:hidden;pointer-events:none}
+@media(max-width:900px){body.scene-dark header,body.scene-dark footer{background:#0b1228e6;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}}
+
+@media(max-height:760px) and (min-width:901px){.cover-copy{top:92px}.cover-title{margin:.28em 0 .42em}.cover-shift{margin-bottom:22px}}
+@media(max-width:1180px) and (min-width:901px){.cover-copy{width:min(56vw,720px)}.cover-meta dd{white-space:normal;max-width:24ch}}
+@media(max-width:900px){
+ .js-ready .slide[data-semantic-id=opening].active{margin-top:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto}
+ .slide[data-semantic-id=opening]{--pad:22px}
+ .cover-stage{position:fixed}
+ .cover-film{background:linear-gradient(180deg,#0b1228f0 0%,#0b1228d6 40%,#0b122859 68%,#0b1228d9 100%)}
+ .cover-copy{position:relative;left:auto;top:auto;width:auto;padding:94px var(--pad) 0}
+ .cover-kicker{gap:10px;font-size:10px;letter-spacing:.16em;white-space:nowrap}.cover-kicker i{width:22px}
+ .cover-title{font-size:min(13.6vw,62px);margin:.4em 0 .5em}
+ .slide .cover-state{font-size:17px}
+  .cover-meta{position:relative;left:auto;bottom:auto;margin:46vh var(--pad) 104px;display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}
+ .cover-meta>div:last-child{grid-column:1/-1}
+ .cover-meta dd{white-space:normal}
+}
+@media print{.cover-stage{position:absolute}.cover-copy,.cover-meta{opacity:1!important}}

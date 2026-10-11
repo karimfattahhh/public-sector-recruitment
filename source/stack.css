@@ -1,0 +1,67 @@
+/* Slide 5: front stage and back stage. Exploded ink drawing of one candidate's path above the
+   four layers that run it; the panel lists every responsibility behind the current stage. */
+.slide[data-semantic-id=candidate]{--pad:6vw;padding:0;background:#f5f6fa;color:#10162b}
+.sk-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#f5f6fa}
+.sk-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sk-figure{position:absolute;left:0;top:0;z-index:2;width:clamp(120px,11.5vw,210px);aspect-ratio:1;transform:translate(-50%,-90%);pointer-events:none}
+.sk-object{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+.sk-tag{position:absolute;left:0;top:0;z-index:2;opacity:0;font-size:clamp(9px,.62vw,11px);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#ffffffe6;white-space:nowrap;will-change:transform}
+.sk-tag:nth-of-type(2){color:#3445eb}
+.sk-tag-surface{color:#10162b}
+.sk-tag{transition:color .35s,text-shadow .35s}
+.sk-tag.is-focus{text-shadow:0 0 14px #ffffff}
+
+.sk-copy{position:absolute;z-index:3;left:var(--pad);top:clamp(96px,13vh,132px);width:min(37.5vw,560px)}
+.sk-kicker{display:flex;align-items:center;gap:14px;margin:0;font-size:clamp(11px,.72vw,13.5px);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#3445eb}
+.sk-kicker i{width:30px;height:1px;background:#3445eb66}
+.sk-kicker span:last-child{color:#10162b}
+.slide .sk-title{margin:.34em 0 .5em;max-width:none;font-size:min(3.5vw,6.2vh);line-height:1;font-weight:500;letter-spacing:-.055em;color:#10162b}
+.sk-title-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.sk-title-line>span{display:block;will-change:transform}
+.slide .sk-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.035em;color:#3445eb}
+.slide .sk-who{display:flex;justify-content:space-between;margin:0 0 8px;max-width:none;font-size:clamp(10px,.66vw,11.5px);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#686d80}
+.sk-who b{color:#3445eb;font-weight:600;font-variant-numeric:tabular-nums}
+.slide .sk-name{margin:0;max-width:none;font-size:clamp(28px,2.4vw,40px);line-height:1.05;font-weight:500;letter-spacing:-.04em;color:#10162b}
+.slide .sk-summary{margin:6px 0 0;max-width:none;font-size:clamp(15px,1.12vw,18px);line-height:1.45;color:#3d4258}
+.sk-layers{margin:clamp(16px,3vh,28px) 0 0;padding:0;list-style:none;border-top:1px solid #10162b1f}
+.slide .sk-layer{position:relative;display:grid;grid-template-columns:30px 1fr;grid-template-rows:auto auto;column-gap:10px;width:100%;min-width:0;max-width:none;margin:0;padding:clamp(9px,1.5vh,13px) 0;background:none;border:0;border-bottom:1px solid #10162b1f;border-radius:0;box-shadow:none;color:#10162b;font:inherit;text-align:left;cursor:pointer;transition:background-color .3s}
+.slide .sk-layer:hover{background:none;filter:none;transform:none}
+.sk-layer:before{content:'';position:absolute;left:-14px;top:12px;bottom:12px;width:2px;background:#3445eb;transform:scaleY(0);transition:transform .35s}
+.sk-layer.is-focus:before,.sk-layer[aria-pressed=true]:before{transform:none}
+.sk-layer i{grid-row:1/3;padding-top:2px;font-style:normal;font-size:11px;font-weight:600;letter-spacing:.12em;color:#3445eb;font-variant-numeric:tabular-nums}
+.sk-layer-name{font-size:clamp(10px,.66vw,11.5px);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#686d80;transition:color .3s}
+.sk-line-text{margin-top:4px;font-size:clamp(14px,1.02vw,16.5px);line-height:1.4;color:#10162b}
+.sk-layer.is-focus .sk-layer-name,.sk-layer[aria-pressed=true] .sk-layer-name{color:#3445eb}
+.sk-layer:focus-visible{outline:2px solid #3445eb;outline-offset:3px}
+
+.sk-steps{position:absolute;inset:0;z-index:3;pointer-events:none}
+.slide .sk-step{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;max-width:none;margin:0;padding:6px 8px;background:none;border:0;border-radius:8px;box-shadow:none;color:#686d80;font:inherit;cursor:pointer;pointer-events:auto;will-change:transform;transition:color .35s}
+.slide .sk-step:hover{color:#10162b;background:none;filter:none}
+.sk-step span{font-size:clamp(9.5px,.62vw,11px);font-weight:600;letter-spacing:.16em}
+.sk-step b{font-size:clamp(12.5px,.88vw,15px);font-weight:500;white-space:nowrap}
+.slide .sk-step[aria-pressed=true]{color:#10162b}
+.sk-step[aria-pressed=true] span{color:#3445eb}
+.sk-step:after{content:'';width:18px;height:2px;margin-top:3px;border-radius:2px;background:#3445eb;transform:scaleX(0);transition:transform .35s}
+.sk-step[aria-pressed=true]:after{transform:none}
+.sk-step:focus-visible{outline:2px solid #3445eb;outline-offset:2px}
+.slide .sk-foot{position:absolute;z-index:3;left:var(--pad);bottom:clamp(74px,8.6vh,82px);margin:0;max-width:none;font-size:11px;color:#686d80}
+
+@media(max-height:760px) and (min-width:901px){.sk-copy{top:88px}.slide .sk-title{margin-bottom:.4em}.slide .sk-layer{padding:7px 0}}
+
+/* Phones and screens without WebGL: the stages become a row of buttons and the object sits beside the text. */
+.sk-flat .sk-canvas,.sk-flat .sk-tag{display:none}
+.sk-flat .sk-steps{position:relative;inset:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;pointer-events:auto}
+.sk-flat .sk-step{position:relative;transform:none!important;opacity:1!important;align-items:flex-start;padding:10px 12px;border:1px solid #10162b1f;border-radius:10px;background:#ffffffa6}
+.sk-flat .sk-step:after{display:none}
+.slide.sk-flat .sk-step[aria-pressed=true]{border-color:#3445eb;background:#3445eb0d}
+@media(min-width:901px){.sk-flat .sk-steps{position:absolute;left:auto;right:var(--pad);top:auto;bottom:clamp(110px,14vh,130px);width:min(46vw,640px);grid-template-columns:repeat(6,1fr)}.sk-flat .sk-figure{left:auto;top:18vh;right:calc(var(--pad) + min(46vw,640px)/2);transform:translateX(50%);width:clamp(180px,20vw,300px)}}
+@media(max-width:900px){
+ .js-ready .slide[data-semantic-id=candidate].active{padding:0;overflow-x:hidden;overflow-y:auto}
+ .slide[data-semantic-id=candidate]{--pad:22px}
+ .sk-stage{position:relative;inset:auto;height:auto;overflow:visible;background:transparent}
+ .sk-flat .sk-figure{position:relative;left:auto;right:auto;top:auto;display:block;margin:20px auto 0;width:min(46vw,190px);transform:none}
+ .sk-copy{position:relative;left:auto;top:auto;width:auto;padding:6px var(--pad) 0}
+ .slide .sk-title{font-size:min(10vw,44px)}
+ .sk-steps{margin:22px var(--pad) 0}
+ .slide .sk-foot{position:relative;left:auto;bottom:auto;margin:18px var(--pad) 40px}
+}

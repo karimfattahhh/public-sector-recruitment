@@ -1,0 +1,56 @@
+/* Slide 4: one connected recruitment journey. Deep cobalt field, live module chain, labels that
+   follow their modules and outcomes that light once the journey is connected. */
+.slide[data-semantic-id=connected]{--pad:6vw;padding:0;background:#141d7a;color:#f5f6fa}
+.cn-stage{position:absolute;inset:0;z-index:0;overflow:hidden;background:#141d7a}
+.cn-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.cn-head{position:absolute;z-index:3;left:var(--pad);top:clamp(100px,14vh,140px);width:min(46vw,680px)}
+.cn-kicker{display:flex;align-items:center;gap:14px;margin:0;font-size:clamp(11px,.72vw,13.5px);font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#c3c6ff}
+.cn-kicker span:first-child{color:#ccefad}
+.cn-kicker i{width:30px;height:1px;background:#c3c6ff66}
+.slide .cn-title{margin:.32em 0 .5em;max-width:none;font-size:min(5.2vw,9vh);line-height:.98;font-weight:500;letter-spacing:-.058em;color:#f5f6fa}
+.cn-line{display:block;overflow:hidden;padding:0 .08em .15em 0;margin-bottom:-.15em}
+.cn-line>span{display:block;will-change:transform}
+.slide .cn-title em{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;letter-spacing:-.04em;color:#ccefad}
+.cn-controls{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.slide .cn-toggle{display:inline-flex;align-items:center;gap:16px;min-width:0;max-width:none;margin:0;padding:7px 7px 7px 22px;border-radius:999px;background:#f5f6fa14;border:1px solid #f5f6fa38;box-shadow:inset 0 1px #ffffff26;color:#f5f6fa;font:inherit;font-size:clamp(13px,.86vw,15.5px);font-weight:500;cursor:pointer;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:background .35s,border-color .35s,transform .35s}
+.cn-toggle b{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#ccefad;color:#10162b;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.cn-toggle svg{width:17px;height:17px}
+.slide .cn-toggle:hover{background:#f5f6fa24;border-color:#f5f6fa66;filter:none;transform:translateY(-2px)}
+.cn-toggle[aria-pressed=true] b{transform:rotate(180deg)}
+.cn-toggle:focus-visible{outline:2px solid #ccefad;outline-offset:4px}
+.slide .cn-caption{margin:0;max-width:none;font-size:clamp(14px,1.05vw,17px);line-height:1.4;color:#c3c6ffe6}
+
+.cn-nodes{position:absolute;inset:0;z-index:2;margin:0;padding:0;list-style:none;pointer-events:none}
+.cn-node{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;white-space:nowrap;will-change:transform}
+.cn-node span{font-size:clamp(9.5px,.62vw,11px);font-weight:600;letter-spacing:.18em;color:#ccefad}
+.cn-node b{font-size:clamp(14px,1.05vw,18px);font-weight:500;letter-spacing:-.01em;color:#f5f6fa;transition:color .3s,text-shadow .3s}
+.cn-node small{font-size:clamp(11px,.76vw,13px);color:#c3c6ffcc}
+.cn-node.is-lit b{color:#ccefad;text-shadow:0 0 18px #ccefad80}
+
+.cn-outcomes{position:absolute;z-index:3;left:var(--pad);right:var(--pad);bottom:clamp(98px,12vh,116px);display:flex;flex-wrap:wrap;gap:12px 34px;margin:0;padding:16px 0 0;list-style:none;border-top:1px solid #c3c6ff33}
+.cn-outcomes li{display:flex;align-items:center;gap:10px;font-size:clamp(13px,.95vw,16px);color:#c3c6ff99;transition:color .6s calc(var(--i)*.14s)}
+.cn-outcomes i{width:8px;height:8px;border-radius:50%;border:1px solid #c3c6ff80;transition:background-color .6s calc(var(--i)*.14s),border-color .6s calc(var(--i)*.14s),box-shadow .6s calc(var(--i)*.14s)}
+.is-connected .cn-outcomes li{color:#f5f6fa;transition-delay:calc(1.6s + var(--i)*.16s)}
+.is-connected .cn-outcomes i{background:#ccefad;border-color:#ccefad;box-shadow:0 0 14px #ccefad;transition-delay:calc(1.6s + var(--i)*.16s)}
+.slide .cn-foot{position:absolute;z-index:3;left:var(--pad);bottom:clamp(74px,8.6vh,82px);margin:0;max-width:none;font-size:11px;color:#c3c6ff99}
+
+@media(max-height:760px) and (min-width:901px){.cn-head{top:90px}.slide .cn-title{margin-bottom:.35em}}
+
+/* Phones and screens without WebGL: the activities become a numbered list. */
+.cn-flat .cn-canvas{display:none}
+.cn-flat .cn-nodes{position:relative;inset:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;pointer-events:auto}
+.cn-flat .cn-node{position:relative;transform:none!important;opacity:1!important;align-items:flex-start;text-align:left;white-space:normal;padding:12px 14px;border:1px solid #c3c6ff2e;border-radius:12px;background:#0b12284d;transition:border-color .5s calc(var(--n,0)*.08s),background-color .5s}
+.cn-flat.is-connected .cn-node{border-color:#ccefad80;background:#ccefad12}
+@media(min-width:901px){.cn-flat .cn-nodes{position:absolute;left:var(--pad);right:var(--pad);top:auto;bottom:clamp(170px,22vh,200px);grid-template-columns:repeat(6,1fr)}}
+@media(max-width:900px){
+ .js-ready .slide[data-semantic-id=connected].active{margin-top:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto}
+ .slide[data-semantic-id=connected]{--pad:22px}
+ .cn-stage{position:fixed;inset:0}
+ .cn-head,.cn-outcomes,.slide .cn-foot{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:auto}
+ .cn-head{padding:92px var(--pad) 0}
+ .slide .cn-title{font-size:min(10.5vw,46px)}
+ .cn-nodes{margin:26px var(--pad) 0}
+ .cn-outcomes{margin:26px var(--pad) 0}
+ .slide .cn-foot{margin:18px var(--pad) 100px}
+}
