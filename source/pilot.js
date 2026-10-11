@@ -1,16 +1,18 @@
-/* Pilot scene, the deck's close. Act one: five floating steps (Understand, Design, Pilot, Evaluate,
+/* Slide 12, the deck's close. Act one: five floating steps (Understand, Design, Pilot, Evaluate,
    Scale) rise into depth with a checkpoint on the path between each; a walking figure climbs one
-   step per phase, finished steps turn solid and Scale shows broader use only as dashed platforms
-   that need a separate decision. Act two, the finale: the roadmap copy clears, the camera glides
-   down behind the figure at the foot of the stairs, a light runs up the path toward a warm horizon
-   and the end card asks the closing question. Local WebGL and GSAP only. */
+   step per stage, finished steps turn solid and Scale shows wider use only as dashed platforms.
+   Then the proposed next step: the figure walks back to step one for the discovery workshop.
+   Act two, the finale: the roadmap copy clears, the camera glides down behind the figure at the foot
+   of the stairs, a light runs up the path and the closing question rises over the seven-stage
+   journey. The deck stops there. Local WebGL and GSAP only. */
 (()=>{'use strict';
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const slide=$('[data-semantic-id="pilot"]');if(!slide||!window.ELMY_LIGHT)return;
 const{M,FS_POINTS}=window.ELMY_LIGHT,g=window.gsap;
 const PH=JSON.parse($('.pl-data',slide).textContent);
 const canvas=$('.pl-canvas',slide),steps=$$('.pl-step',slide),tagStart=$('.pl-start',slide),tagBroad=$('.pl-broad',slide),revealBtn=$('.pl-reveal',slide);
-const panel={num:$('.pl-num',slide),count:$('.pl-count',slide),name:$('.pl-name',slide),title:$('.pl-detail h3',slide),text:$('.pl-text',slide),check:$('.pl-check',slide)};
+const panel={num:$('.pl-num',slide),count:$('.pl-count',slide),phase:$('.pl-phase',slide),name:$('.pl-name',slide),title:$('.pl-detail h3',slide),text:$('.pl-text',slide),label:$('.pl-olabel',slide),check:$('.pl-check',slide)};
+const NEXT=PH.length-1;
 const pad=n=>String(n).padStart(2,'0'),clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t;
 
 /* Geometry: step tops rise to the right and back; two dashed platforms sit beside the last. */
@@ -115,7 +117,10 @@ function start(){if(!ready||raf||!active||!motion||document.hidden)return;last=0
 function stop(){cancelAnimationFrame(raf);raf=0;}
 
 /* Act one: the phases. */
-function targets(p,end){const K=[0,1,2,3,4];return{done:K.map(k=>!end&&k<p?1:0),cur:K.map(k=>(end?k===0:k===p)?1:0),ghost:K.map(k=>!end&&k>p?1:0),dim:K.map(()=>1),
+function targets(p,end){const K=[0,1,2,3,4];
+ // The proposed next step: every step stands ready and the figure is back at step one.
+ if(!end&&p===NEXT)return{done:K.map(()=>0),cur:K.map(k=>k===0?1:0),ghost:K.map(()=>0),dim:K.map(()=>1),fig:0,broad:0,start:1,focus:0,cam:0,lift:0,warm:0};
+ return{done:K.map(k=>!end&&k<p?1:0),cur:K.map(k=>(end?k===0:k===p)?1:0),ghost:K.map(k=>!end&&k>p?1:0),dim:K.map(()=>1),
  fig:end?0:p,broad:!end&&p===4?1:0,start:end?1:0,focus:end?0:p,cam:end?1:0,lift:end?1:0,warm:end?1:0};}
 function snap(t){['done','cur','ghost','dim'].forEach(n=>t[n].forEach((v,k)=>S[n][k]=v));Object.assign(S,{fig:t.fig,broad:t.broad,start:t.start,focus:t.focus,cam:t.cam,lift:t.lift,warm:t.warm});moving=0;}
 function apply(t){const arr=(name,dur,ease,stag=0)=>t[name].forEach((v,k)=>g.to(S[name],{[k]:v,duration:dur,ease,delay:stag*k,overwrite:'auto'}));
@@ -123,17 +128,17 @@ function apply(t){const arr=(name,dur,ease,stag=0)=>t[name].forEach((v,k)=>g.to(
  const dist=Math.abs(t.fig-S.fig);g.killTweensOf(S,'fig,focus,broad,start');
  if(dist>.01){moving=1;g.to(S,{fig:t.fig,duration:Math.min(2.2,.75+dist*.38),ease:'power2.inOut',onComplete:()=>{moving=0;}});}
  g.to(S,{focus:t.focus,duration:1.3,ease:'power3.inOut'});g.to(S,{broad:t.broad,duration:.8,delay:t.broad?.6:0,ease:'power2.out'});g.to(S,{start:t.start,duration:.6,delay:t.start?.5:0});}
-function write(p){const v=PH[p];panel.num.textContent=pad(p+1);panel.count.textContent=pad(p+1);panel.name.textContent=v.name;panel.title.textContent=v.title;panel.text.textContent=v.text;panel.check.textContent=v.check;
+function write(p){const v=PH[p],nx=p===NEXT;panel.num.textContent=nx?'→':pad(p+1);panel.count.textContent=pad(p+1);panel.phase.hidden=nx;panel.name.textContent=v.name;panel.title.textContent=v.title;panel.text.textContent=v.text;panel.label.textContent=v.label;panel.check.textContent=v.check;
  steps.forEach((b,k)=>b.setAttribute('aria-pressed',String(k===p)));slide.dataset.phase=String(p+1);}
 function showPanel(p,dir){const parts=[panel.num,panel.title,panel.text,panel.check.parentElement,$('.pl-meta',slide)];panelTl?.progress(1);
  panelTl=g.timeline().to(parts,{opacity:0,y:-8*dir,duration:.2,ease:'power2.in',stagger:.02}).add(()=>write(p)).fromTo(parts,{opacity:0,y:12*dir},{opacity:1,y:0,duration:.55,ease:'power3.out',stagger:.04});}
 const anim=()=>motion&&!!g&&ready;
-function go(p){p=Math.max(0,Math.min(4,p));if(ending){setEnding(false,p);return;}if(p===phase)return;const dir=p>phase?1:-1;phase=p;
+function go(p){p=Math.max(0,Math.min(NEXT,p));if(ending){setEnding(false,p);return;}if(p===phase)return;const dir=p>phase?1:-1;phase=p;
  if(!anim()){snap(targets(p,false));write(p);render();return;}apply(targets(p,false));showPanel(p,dir);}
 
 /* Act two: the finale. The roadmap copy and labels clear, the camera glides behind the figure at the
    foot of the stairs, light runs up the path and the end card asks the closing question. */
-const roadmapCopy=[$('.pl-copy',slide),$('.pl-decision',slide)],endCard=$('.pl-end',slide);
+const roadmapCopy=[$('.pl-copy',slide)],endCard=$('.pl-end',slide),endNodes=$$('.pl-end .jr-node',slide);
 const q=s=>$$(s,slide);
 function chrome(){document.body.classList.toggle('pl-ending',ending&&active);}
 function setEnding(on,toPhase=phase){if(on===ending&&toPhase===phase)return;ending=on;phase=toPhase;if(on||!anim())slide.classList.toggle('pl-ended',on);endCard.setAttribute('aria-hidden',String(!on));roadmapCopy.forEach(e=>e.setAttribute('aria-hidden',String(on)));
@@ -145,17 +150,21 @@ function setEnding(on,toPhase=phase){if(on===ending&&toPhase===phase)return;endi
    .to(S,{cam:1,duration:2.1,ease:'power3.inOut'},.15).to(S,{warm:1,duration:1.8,ease:'power2.out'},1.1).fromTo(S,{lift:0},{lift:1,duration:1.7,ease:'power2.inOut'},1.35)
    .fromTo(q('.pl-end-kicker'),{opacity:0,y:10},{opacity:1,y:0,duration:.8},1.05)
    .fromTo(q('.pl-eline>span'),{yPercent:112},{yPercent:0,duration:1.2,stagger:.11,ease:'power4.out'},1.15)
-   .fromTo(q('.pl-end-action'),{opacity:0,y:14},{opacity:1,y:0,duration:.9},1.75)
-   .fromTo(q('.pl-sign'),{opacity:0,y:14},{opacity:1,y:0,duration:1},2.2);
+   .fromTo(q('.pl-end .jr li'),{opacity:0,y:12},{opacity:1,y:0,duration:.8,stagger:.06},1.7)
+   .fromTo(q('.pl-end-action'),{opacity:0,y:14},{opacity:1,y:0,duration:.9},2.2)
+   .fromTo(q('.pl-sign'),{opacity:0,y:14},{opacity:1,y:0,duration:1},2.5);
   apply(t);g.killTweensOf(S.ghost);[1,2,3,4].forEach(k=>endTl.to(S.ghost,{[k]:0,duration:.6,ease:'power2.out'},1.4+k*.18));}
- else{endTl.to(q('.pl-end-top,.pl-sign'),{opacity:0,y:-10,duration:.35,ease:'power2.in'},0).to(S,{cam:0,duration:1.6,ease:'power3.inOut'},.1).to(S,{warm:0,lift:0,duration:.8},.1)
+ else{endTl.to(q('.pl-end-top,.pl-end .jr,.pl-end-action,.pl-sign'),{opacity:0,y:-10,duration:.35,ease:'power2.in'},0).to(S,{cam:0,duration:1.6,ease:'power3.inOut'},.1).to(S,{warm:0,lift:0,duration:.8},.1)
    .add(()=>{g.set(roadmapCopy,{opacity:0});slide.classList.remove('pl-ended');},.45).fromTo(roadmapCopy,{opacity:0,y:12},{opacity:1,y:0,duration:.8,stagger:.08,immediateRender:false},1);apply(t);showPanel(phase,-1);}
  endTl.add(settleEnd);}
-function settleEnd(){if(g)g.set([...roadmapCopy,...q('.pl-end-top,.pl-end-kicker,.pl-eline>span,.pl-end-action,.pl-sign')],{clearProps:'opacity,transform'});}
-function step(dir){if(dir>0){if(ending)return;if(phase<4)go(phase+1);else setEnding(true);}else{if(ending)setEnding(false,phase);else go(phase-1);}}
+function settleEnd(){if(g)g.set([...roadmapCopy,...q('.pl-end-top,.pl-end-kicker,.pl-eline>span,.pl-end .jr,.pl-end .jr li,.pl-end-action,.pl-sign')],{clearProps:'opacity,transform'});}
+// Down stops at the closing question: the presenter stays there and listens.
+function step(dir){if(dir>0){if(ending)return;if(phase<NEXT)go(phase+1);else setEnding(true);}else{if(ending)setEnding(false,phase);else go(phase-1);}}
 steps.forEach((b,k)=>b.addEventListener('click',()=>go(k)));
 revealBtn.addEventListener('click',()=>setEnding(!ending));
 $('.pl-back',slide).addEventListener('click',()=>setEnding(false));
+// On the closing question the Board can point at a stage; one stage is marked at a time.
+endNodes.forEach(b=>b.addEventListener('click',()=>{const on=b.getAttribute('aria-pressed')!=='true';endNodes.forEach(n=>n.setAttribute('aria-pressed',String(n===b&&on)));}));
 let wheelSum=0,wheelLast=0,wheelTime=0;
 slide.addEventListener('wheel',e=>{if(!active||innerWidth<=900||Math.abs(e.deltaX)>=Math.abs(e.deltaY))return;e.preventDefault();const now=Date.now();if(now-wheelLast>180)wheelSum=0;wheelLast=now;if(now-wheelTime<800)return;wheelSum+=e.deltaY;if(Math.abs(wheelSum)<60)return;step(Math.sign(wheelSum));wheelSum=0;wheelTime=now;},{passive:false});
 
@@ -166,21 +175,21 @@ function text(full){textTl?.kill();if(!g||!motion){settle();return;}
  textTl=g.timeline({defaults:{ease:'power3.out',lazy:false}});if(ending)return;
  textTl.fromTo(q('.pl-kicker'),{opacity:0,y:10},{opacity:1,y:0,duration:.8},full?.1:0)
   .fromTo(q('.pl-line>span'),{yPercent:112},{yPercent:0,duration:1.15,stagger:.1,ease:'power4.out'},full?.18:.04)
-  .fromTo(q('.pl-detail'),{opacity:0,y:14},{opacity:1,y:0,duration:.9},full?.65:.2)
-  .fromTo(q('.pl-decision'),{opacity:0,y:16},{opacity:1,y:0,duration:.9},full?.9:.3)
+  .fromTo(q('.pl-subtitle'),{opacity:0,y:12},{opacity:1,y:0,duration:.8},full?.5:.12)
+  .fromTo(q('.pl-detail,.pl-reveal,.pl-hint'),{opacity:0,y:14},{opacity:1,y:0,duration:.9,stagger:.08},full?.7:.2)
   .fromTo(q('.pl-foot'),{opacity:0},{opacity:1,duration:.8},full?1.3:.4);}
-function settle(){textTl?.kill();textTl=null;if(g)g.set(q('.pl-kicker,.pl-line>span,.pl-detail,.pl-decision,.pl-foot'),{clearProps:'opacity,transform'});}
+function settle(){textTl?.kill();textTl=null;if(g)g.set(q('.pl-kicker,.pl-line>span,.pl-subtitle,.pl-detail,.pl-reveal,.pl-hint,.pl-foot'),{clearProps:'opacity,transform'});}
 function finish(){if(tl){tl.progress(1,true);tl.kill();tl=null;}panelTl?.progress(1);endTl?.progress(1);if(g)g.killTweensOf([S,S.done,S.cur,S.ghost,S.dim,S.rise]);
  S.rise.fill(1);S.figA=1;S.paths=1;snap(targets(phase,ending));write(phase);settleEnd();placed='';}
 document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
 new ResizeObserver(()=>{placed='';if(active&&!raf)render();}).observe(canvas);
 
 window.ELMY_PILOT={
- id:'pilot',keys:['ArrowDown','ArrowUp'],
+ id:'pilot',keys:['ArrowDown','ArrowUp','PageDown','PageUp'],
  activate(s,on){motion=on;const was=active;active=s===slide;chrome();if(!active){stop();textTl?.progress(1,true);finish();if(was)played=true;return;}if(was)return;
   if(on&&g&&ready&&!played){played=true;intro();text(true);}else{finish();text(false);}placed='';render();start();},
  mode(on){motion=on;if(!on){finish();settle();stop();render();}else start();},
- key(k){step(k==='ArrowDown'?1:-1);},
+ key(k){step(['ArrowDown','PageDown'].includes(k)?1:-1);},
  go,end:setEnding,
  debug:{S,render,get state(){return{phase,ending,ready,frames,failure:canvas.dataset.failure||null};},seek(t){time=t;render();}}
 };
